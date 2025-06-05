@@ -40,12 +40,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.Components.AddDataButton
 import com.example.testownik_mobilny.Components.ImportFromLocalButton
+import com.example.testownik_mobilny.Components.MainBody
 import com.example.testownik_mobilny.ui.theme.TestownikMobilnyTheme
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.Components.RoundIconButton
+import com.example.testownik_mobilny.Components.TestButton
+import com.example.testownik_mobilny.Components.TopBar
+import com.example.testownik_mobilny.TestLogic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
+import kotlin.collections.forEach
 
 
 class MainActivity : ComponentActivity() {
@@ -57,9 +62,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            mainViewModel.existingDatabases(LocalContext.current)
-
             TestownikMobilnyTheme {
+                val context = LocalContext.current
+                mainViewModel.existingDatabases(context)
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(
                         modifier = Modifier
@@ -71,20 +76,24 @@ class MainActivity : ComponentActivity() {
                             Box(
                                 modifier = Modifier.fillMaxSize()
                             ) {
+//                                Title of app, icon and settings button
                                 TopBar(modifier = Modifier.align(Alignment.TopStart))
-                                BodyContent(
+
+//                                Container for database elements
+                                MainBody(
                                     modifier = Modifier.fillMaxSize().padding(top = 100.dp)
                                 ){
-                                    mainViewModel.generateDatabaseCards()
+                                    GenerateDatabaseElements(mainViewModel.databaseList)
                                 }
-//                                Gradient effect
+
+//                                Gradient effect at the end of the screen
                                 val gradient = Brush.verticalGradient(
                                     colors = listOf(darkGray.copy(0.01f), darkGray.copy(1f))
                                 )
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(100.dp)
+                                        .height(175.dp)
                                         .background(gradient)
                                         .align(Alignment.BottomCenter)
                                 )
@@ -101,7 +110,9 @@ class MainActivity : ComponentActivity() {
                                             iconId = R.drawable.create_new,
                                             enabled = false
                                         )
-                                        ImportFromLocalButton()
+                                        ImportFromLocalButton(
+                                            viewModel = mainViewModel
+                                        )
                                     }
                                 }
 
@@ -114,65 +125,12 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TopBar(modifier: Modifier = Modifier) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(lighterGray)
-                .padding(bottom = 0.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(R.drawable.app_icon),
-                contentDescription = "Bulb",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(70.dp, 70.dp)
-            )
-            Text(
-                text = "Testownik",
-                textAlign = TextAlign.Center,
-                fontSize = 28.sp,
-                fontFamily = jetBrainsMonoFontFamily,
-                color = Color.White,
-                modifier = Modifier.width(250.dp)
-            )
-
-            RoundIconButton(
-                onClick = {},
-                modifier = Modifier,
-                iconId = R.drawable.settings_icon
-            )
-        }
-    }
-
-    @Composable
-    fun BodyContent(
-        modifier: Modifier = Modifier,
-        content: @Composable () -> Unit
-    ) {
-        Column(
-            modifier = modifier
-                .background(darkGray)
-                .fillMaxWidth()
-                .padding(top = 0.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-
-        ) {
-            val divH = 15.dp
-            Spacer(modifier = Modifier.height(divH))
-            Text("Ostatnie:",
-                color = lightGray,
-                fontFamily = jetBrainsMonoFontFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.fillMaxWidth().padding(start = 20.dp)
-            )
-            Spacer(modifier = Modifier.height(divH*0.6f))
-            content()
+    fun GenerateDatabaseElements(list: Set<QuestionDatabase>) {
+        if (list.isNotEmpty()) {
+            list.forEach { data ->
+                TestButton(data.name, data.numberOfQuestions, {})
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
     }
 }

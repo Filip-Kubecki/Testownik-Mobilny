@@ -60,8 +60,3 @@ fun getFileNameFromUri(context: Context, uri: Uri): String? {
 
     return result
 }
-
-fun getAllTests(context: Context): String{
-    val listOfNames = context.filesDir.listFiles()?.filter { it.isDirectory }?.map { it.name } ?: emptyList()
-    return listOfNames.joinToString("\n")
-}
