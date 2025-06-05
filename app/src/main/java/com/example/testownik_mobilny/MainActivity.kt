@@ -1,14 +1,10 @@
 package com.example.testownik_mobilny
 
-import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,20 +21,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -48,33 +35,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.core.net.toUri
 import com.example.testownik_mobilny.Components.AddDataButton
 import com.example.testownik_mobilny.Components.ImportFromLocalButton
 import com.example.testownik_mobilny.ui.theme.TestownikMobilnyTheme
 import com.example.testownik_mobilny.ui.theme.darkGray
-import kotlinx.coroutines.launch
-import java.io.File
 import com.example.testownik_mobilny.Components.RoundIconButton
-import com.example.testownik_mobilny.Components.TestButton
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
-import com.example.testownik_mobilny.ui.theme.positiveGreen
-import com.example.testownik_mobilny.ui.theme.whitish
 
 
 class MainActivity : ComponentActivity() {
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val mainViewModel = MainActivityViewModel()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
+            mainViewModel.existingDatabases(LocalContext.current)
+
             TestownikMobilnyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Surface(
@@ -84,15 +68,15 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         Column {
-                            val fileCount = LocalContext.current.filesDir.listFiles().size
                             Box(
                                 modifier = Modifier.fillMaxSize()
                             ) {
                                 TopBar(modifier = Modifier.align(Alignment.TopStart))
                                 BodyContent(
                                     modifier = Modifier.fillMaxSize().padding(top = 100.dp)
-                                )
-
+                                ){
+                                    mainViewModel.generateDatabaseCards()
+                                }
 //                                Gradient effect
                                 val gradient = Brush.verticalGradient(
                                     colors = listOf(darkGray.copy(0.01f), darkGray.copy(1f))
@@ -104,6 +88,7 @@ class MainActivity : ComponentActivity() {
                                         .background(gradient)
                                         .align(Alignment.BottomCenter)
                                 )
+
 //                                Bottom left dropdown menu
                                 AddDataButton(modifier = Modifier.align(Alignment.BottomEnd)) {
                                     Column(
@@ -113,7 +98,8 @@ class MainActivity : ComponentActivity() {
                                     ) {
                                         RoundIconButton(
                                             {},
-                                            iconId = R.drawable.create_new
+                                            iconId = R.drawable.create_new,
+                                            enabled = false
                                         )
                                         ImportFromLocalButton()
                                     }
@@ -162,7 +148,10 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun BodyContent(modifier: Modifier = Modifier) {
+    fun BodyContent(
+        modifier: Modifier = Modifier,
+        content: @Composable () -> Unit
+    ) {
         Column(
             modifier = modifier
                 .background(darkGray)
@@ -174,7 +163,6 @@ class MainActivity : ComponentActivity() {
 
         ) {
             val divH = 15.dp
-//            FilePicker()
             Spacer(modifier = Modifier.height(divH))
             Text("Ostatnie:",
                 color = lightGray,
@@ -184,10 +172,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth().padding(start = 20.dp)
             )
             Spacer(modifier = Modifier.height(divH*0.6f))
-            repeat(20) {
-                TestButton("Podstawy metro", 34, {})
-                Spacer(modifier = Modifier.height(divH))
-            }
+            content()
         }
     }
 }

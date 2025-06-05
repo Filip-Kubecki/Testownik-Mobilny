@@ -14,8 +14,7 @@ fun unZip(context: Context, zipUri: Uri, targetDirName: String) {
     val targetDir = File(context.filesDir, targetDirName)
     if (!targetDir.exists()) targetDir.mkdirs()
 
-
-    Log.d("SELF","NAME: ${targetDirName}")
+    Log.d("SELF","NAME: $targetDirName")
 
     context.contentResolver.openInputStream(zipUri)?.use { inputStream ->
         ZipInputStream(BufferedInputStream(inputStream)).use { zipStream ->
@@ -64,5 +63,5 @@ fun getFileNameFromUri(context: Context, uri: Uri): String? {
 
 fun getAllTests(context: Context): String{
     val listOfNames = context.filesDir.listFiles()?.filter { it.isDirectory }?.map { it.name } ?: emptyList()
-    return listOfNames.joinToString()
+    return listOfNames.joinToString("\n")
 }

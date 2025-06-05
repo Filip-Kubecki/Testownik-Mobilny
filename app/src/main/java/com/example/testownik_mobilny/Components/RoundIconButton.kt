@@ -7,7 +7,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -20,13 +19,15 @@ fun RoundIconButton(
     modifier: Modifier = Modifier,
     iconId: Int = R.drawable.app_icon,
     iconDescription: String = "Icon",
-    rotation: Float = 0f
+    rotation: Float = 0f,
+    enabled: Boolean = true
 ){
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = lighterGray
         ),
+        enabled = enabled,
         modifier = modifier
             .size(75.dp, 75.dp)
     ){

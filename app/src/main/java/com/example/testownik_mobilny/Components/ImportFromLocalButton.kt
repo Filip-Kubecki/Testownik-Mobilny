@@ -22,11 +22,10 @@ import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.getFileNameFromUri
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.unZip
-import java.io.File
 
 @Composable
 fun ImportFromLocalButton(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ){
 //    Parameters
     val context = LocalContext.current
@@ -67,15 +66,5 @@ fun ImportFromLocalButton(
         val newUri = "/${name.dropLast(name.length-indexOfSep)}".toUri()
 
         unZip(context, uri, newUri.toString())
-
-        val extractedFiles = File(context.filesDir, newUri.toString()).listFiles()
-
-//        if (extractedFiles != null && extractedFiles[0].isFile) {
-//            Text(
-//                "FILE CONTENT:\n ${extractedFiles[0].readText()}",
-//                color = whitish,
-//                modifier = Modifier.padding(top = 8.dp)
-//            )
-//        }
     }
 }

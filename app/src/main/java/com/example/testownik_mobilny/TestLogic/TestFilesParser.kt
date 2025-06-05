@@ -1,0 +1,64 @@
+package com.example.testownik_mobilny.TestLogic
+
+import android.content.Context
+import android.util.Log
+import java.io.File
+
+class TestFilesParser(
+    private val uri: String,
+    private val context: Context
+) {
+    val databaseFolderUri: String = uri
+
+    fun getQuestionDatabase(): QuestionDatabase{
+        Log.d("SELF", "Started parsing: $uri")
+        val questions = mutableListOf<Question>()
+
+        val databaseDir = findDatabaseDirectory(File(context.filesDir, uri))
+        Log.d("SELF", databaseDir?.name.toString())
+
+        var id = 1
+//        Lists all files in database directory
+        databaseDir?.listFiles()?.forEach { file ->
+//            For txt files - parse them as questions
+            if (file.extension == "txt"){
+//                Log.d("SELF", file.name.toString())
+                val answers = mutableListOf<String>()
+                val header = file.readLines()[0]
+                val correctAns = header.drop(1).map{ it.toInt()}
+
+                file.readLines().drop(2).forEach { line ->
+                    answers.add(line)
+                }
+
+//                Log.d("SELF", header)
+                questions.add(Question(
+                    id,
+                    file.readLines()[1],
+                    answers,
+                    correctAns
+                ))
+//                Log.d("SELF", questions.last().toString())
+                id++
+            }
+        }
+
+        return QuestionDatabase(uri, questions.size, questions)
+    }
+
+    private fun findDatabaseDirectory(directory: File?): File? {
+        if (folderContainsFiles(directory)){
+            return directory
+        }else{
+            return findDatabaseDirectory(firstDirectory(directory))
+        }
+    }
+
+    private fun folderContainsFiles(directory: File?): Boolean {
+        return directory?.listFiles()?.any { it.isFile && it.extension == "txt" } == true
+    }
+
+    private fun firstDirectory(directory: File?): File? {
+        return directory?.listFiles()?.firstOrNull(){ it.isDirectory }
+    }
+}
