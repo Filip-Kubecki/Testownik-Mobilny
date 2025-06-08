@@ -21,7 +21,7 @@ class MainActivityViewModel: ViewModel() {
     var uri by mutableStateOf("".toUri())
         private set
 
-    var databaseList = mutableStateSetOf<QuestionDatabase>()
+    var databaseList = mutableStateListOf<QuestionDatabase>()
         private set
 
     fun existingDatabases(context: Context){
