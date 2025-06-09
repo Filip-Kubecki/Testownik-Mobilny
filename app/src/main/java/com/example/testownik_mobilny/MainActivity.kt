@@ -22,6 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -101,7 +102,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate: () -> Unit){
         val localViewModel = TestScreenViewModel()
-        localViewModel.init(database)
+        LaunchedEffect(Unit){
+            localViewModel.init(database)
+        }
 //        Initalize test logic here
 
         Surface(

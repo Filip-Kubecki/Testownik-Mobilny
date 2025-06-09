@@ -44,7 +44,7 @@ class TestScreenViewModel: ViewModel() {
 //        Pass database from outside
         questions = database.questions
 
-        Log.d("SELF", "Test Initialization")
+        Log.d("SELF", "Test Initialization ${database.name}")
 //        Test info initialization
         testInformation.name = database.name
         testInformation.numberOfQuestions = database.numberOfQuestions
@@ -61,37 +61,30 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun nextRandomQuestion(){
-        Log.d("SELF", "Next question")
 //        TODO: remember to remove index from unvisitedQuestions if answer was correct
         val randomIndex = Random.nextInt(from = 0, until = testInformation.numberOfQuestions-1)
         currentQuestion = questions[testInformation.unvisitedQuestions[randomIndex]]
+        Log.d("SELF", "Next question: ${currentQuestion.id}. ${currentQuestion.question}")
     }
 
     fun checkAnswers(){
         Log.d("SELF", "CHECK STATUS")
-//        Check answers block
         currentQuestion.correctAnswers.forEachIndexed { index, value ->
-            Log.d("SELF", "VALUE = $value, INDEX = $index,")
             if (value && toggledButtons[index] == ToggleState.TOGGLED){
                 toggledButtons[index] = ToggleState.CORRECT
-                Log.d("SELF", "CORRECT")
             }else if (!value && toggledButtons[index] == ToggleState.TOGGLED){
                 toggledButtons[index] = ToggleState.WRONG
-                Log.d("SELF", "WRONG")
             }else if (value && toggledButtons[index] == ToggleState.IDLE){
                 toggledButtons[index] = ToggleState.UNMARKED
-                Log.d("SELF", "UNMARKED")
             }else{
                 toggledButtons[index] = ToggleState.DISABLED
-                Log.d("SELF", "DISABLED")
             }
+//            DEBUG
+//            Log.d("SELF", "VALUE = $value, INDEX = $index, TOGGLE-STATE = ${toggledButtons[index].name}")
         }
     }
 
     fun confirmButtonCheck(){
-
-
-//        New question block
         nextRandomQuestion()
         initButtonStates()
     }

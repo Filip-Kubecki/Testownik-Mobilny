@@ -16,7 +16,6 @@ class TestFilesParser(
         val questions = mutableListOf<Question>()
 
         val databaseDir = findDatabaseDirectory(File(context.filesDir, uri))
-        Log.d("SELF", databaseDir?.name.toString())
         var id = 1
 
 //        Lists all files in database directory
@@ -25,11 +24,16 @@ class TestFilesParser(
             if (file.extension == "txt"){
                 val answers = mutableListOf<String>()
                 val header = file.readLines(Charset.forName("Windows-1250"))[0]
-                val correctAns = header.drop(1).map{ it == '1' }
+                val correctAns = header.trim().drop(1).map{ it == '1' }
 
 //                TODO: in future check if this encoding works with all databases
                 file.readLines(Charset.forName("Windows-1250")).drop(2).forEach { line ->
-                    answers.add(line)
+                    if (line.isNotEmpty()) answers.add(line)
+                }
+
+                if (correctAns.size != answers.size){
+                    Log.d("SELF", "Wrong format: ${file.name} ${header.drop(1)} ${correctAns.size.toString()} ${answers.size}")
+                    return@forEach
                 }
 
                 questions.add(
@@ -43,6 +47,7 @@ class TestFilesParser(
                 id++
             }
         }
+        Log.d("SELF", "PARSED")
 
         return QuestionDatabase(uri, questions.size, questions)
     }
