@@ -21,3 +21,5 @@ val positiveGreen = Color(0xff3b7b06)
 val neutralBlue = Color(0xff6390ec)
 val negativeRed = Color(0xff891515)
 val undecidedYellow = Color(0xffcdb519)
+
+val debugOrange = Color(0xffcd6719)

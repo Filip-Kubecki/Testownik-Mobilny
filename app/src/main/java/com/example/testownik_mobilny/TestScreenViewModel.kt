@@ -25,6 +25,9 @@ class TestScreenViewModel: ViewModel() {
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
+    private var currentQuestionIndex by mutableStateOf(0)
+    private var mistakeCounter by mutableStateOf(0)
+
     fun initButtonStates(){
         toggledButtons.clear()
         repeat(currentQuestion.answers.size) { it ->
@@ -61,9 +64,15 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun nextRandomQuestion(){
-//        TODO: remember to remove index from unvisitedQuestions if answer was correct
-        val randomIndex = Random.nextInt(from = 0, until = testInformation.numberOfQuestions-1)
-        currentQuestion = questions[testInformation.unvisitedQuestions[randomIndex]]
+        currentQuestionIndex = if (Random.nextInt(100) < 5 && testInformation.answeredQuestions.isNotEmpty()) {
+//            5% chance to get question from answeredQuestions
+            testInformation.answeredQuestions.random()
+        } else {
+//            95% chance to get question from unvisitedQuestions
+            testInformation.unvisitedQuestions.random()
+        }
+
+        currentQuestion = questions[currentQuestionIndex]
         Log.d("SELF", "Next question: ${currentQuestion.id}. ${currentQuestion.question}")
     }
 
@@ -74,8 +83,10 @@ class TestScreenViewModel: ViewModel() {
                 toggledButtons[index] = ToggleState.CORRECT
             }else if (!value && toggledButtons[index] == ToggleState.TOGGLED){
                 toggledButtons[index] = ToggleState.WRONG
+                mistakeCounter++
             }else if (value && toggledButtons[index] == ToggleState.IDLE){
                 toggledButtons[index] = ToggleState.UNMARKED
+                mistakeCounter++
             }else{
                 toggledButtons[index] = ToggleState.DISABLED
             }
@@ -85,11 +96,23 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun confirmButtonCheck(){
+//        Save progress
+        if (mistakeCounter == 0){
+            if (testInformation.unvisitedQuestions.contains(currentQuestionIndex)){
+                testInformation.unvisitedQuestions.remove(currentQuestionIndex)
+                testInformation.answeredQuestions.add(currentQuestionIndex)
+            }else if (testInformation.answeredQuestions.contains(currentQuestionIndex)){
+                testInformation.answeredQuestions.remove(currentQuestionIndex)
+                testInformation.memorizedQuestions.add(currentQuestionIndex)
+            }
+        }
+
+//        Go to next question
+        mistakeCounter = 0
         nextRandomQuestion()
         initButtonStates()
     }
 }
-
 
 enum class ToggleState{
     IDLE, TOGGLED, CORRECT, WRONG, UNMARKED, DISABLED
@@ -105,7 +128,7 @@ data class TestInfo(
     var timeSpent: Int = 0,                 // How much time has passed since the test was first opened
 ){
     override fun toString(): String {
-        return "Database: $name, Fully memorized questions: $memorizedQuestions \n" +
-                "Questions answered at least once in current run: $answeredQuestions"
+        return "Database: $name, Fully memorized questions: ${memorizedQuestions.size} \n" +
+                "Questions answered at least once in current run: ${answeredQuestions.size}"
     }
 }

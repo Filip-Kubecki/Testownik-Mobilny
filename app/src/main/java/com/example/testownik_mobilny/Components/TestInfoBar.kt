@@ -25,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testownik_mobilny.TestScreenViewModel
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.whitish
@@ -33,7 +34,7 @@ import kotlinx.coroutines.delay
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TestInfoBar(
-    numberOfQuestions: String
+    viewModel: TestScreenViewModel
 ){
     var timeElapsed by remember { mutableStateOf(0) }
 
@@ -47,6 +48,7 @@ fun TestInfoBar(
         while (true) {
             delay(1000L)
             timeElapsed++
+            viewModel.testInformation.timeSpent = timeElapsed
         }
     }
 
@@ -62,9 +64,9 @@ fun TestInfoBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(0.88f)
-        ) {
+        ) {viewModel.testInformation.memorizedQuestions
             Text(
-                "Liczba pytań: $numberOfQuestions",
+                "Liczba pytań: ${viewModel.testInformation.memorizedQuestions.size}/${viewModel.testInformation.answeredQuestions.size}/${viewModel.testInformation.numberOfQuestions}",
                 style = localTextStyle
             )
             Text(

@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -105,7 +107,7 @@ class MainActivity : ComponentActivity() {
         LaunchedEffect(Unit){
             localViewModel.init(database)
         }
-//        Initalize test logic here
+//        Initialize test logic here
 
         Surface(
                 modifier = Modifier
@@ -122,11 +124,11 @@ class MainActivity : ComponentActivity() {
                             database.name,
                             goBack = navigate
                         )
-                        TestInfoBar(database.numberOfQuestions.toString())
+                        TestInfoBar(localViewModel)
 //                    Question box
                         Box(
                             contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxHeight(0.3f).fillMaxWidth()
+                            modifier = Modifier.fillMaxHeight(0.28f).fillMaxWidth()
                         ){
                             Text(
                                 "${localViewModel.currentQuestion.id}. ${localViewModel.currentQuestion.question}",
@@ -137,18 +139,20 @@ class MainActivity : ComponentActivity() {
                         }
 
 //                    Answers
-//                            TODO: works only with 4 or less answers, make it scale content dynamically
+//                            TODO: scale content dynamically
 //                            TODO: [img] tag doesn't work yet - implement img support
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.fillMaxHeight(0.9f).fillMaxWidth()
+                            modifier = Modifier.fillMaxHeight(0.95f).fillMaxWidth().verticalScroll(rememberScrollState()),
                         ){
                             localViewModel.currentQuestion.answers.forEachIndexed { index, answer ->
+                                Spacer(modifier = Modifier.height(5.dp))
                                 TestAnswerButton(
                                     answer,
                                     index,
-                                    localViewModel
+                                    localViewModel,
+//                                    debugMode = true
                                 )
                             }
                         }
