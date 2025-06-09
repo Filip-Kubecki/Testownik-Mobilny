@@ -3,6 +3,7 @@ package com.example.testownik_mobilny.TestLogic
 import android.content.Context
 import android.util.Log
 import java.io.File
+import java.nio.charset.Charset
 
 class TestFilesParser(
     private val uri: String,
@@ -16,29 +17,29 @@ class TestFilesParser(
 
         val databaseDir = findDatabaseDirectory(File(context.filesDir, uri))
         Log.d("SELF", databaseDir?.name.toString())
-
         var id = 1
+
 //        Lists all files in database directory
         databaseDir?.listFiles()?.forEach { file ->
 //            For txt files - parse them as questions
             if (file.extension == "txt"){
-//                Log.d("SELF", file.name.toString())
                 val answers = mutableListOf<String>()
-                val header = file.readLines()[0]
+                val header = file.readLines(Charset.forName("Windows-1250"))[0]
                 val correctAns = header.drop(1).map{ it == '1' }
 
-                file.readLines().drop(2).forEach { line ->
+//                TODO: in future check if this encoding works with all databases
+                file.readLines(Charset.forName("Windows-1250")).drop(2).forEach { line ->
                     answers.add(line)
                 }
 
-//                Log.d("SELF", header)
-                questions.add(Question(
-                    id,
-                    file.readLines()[1],
-                    answers,
-                    correctAns
-                ))
-//                Log.d("SELF", questions.last().toString())
+                questions.add(
+                    Question(
+                        id = id,
+                        question = file.readLines(Charset.forName("Windows-1250"))[1],
+                        answers = answers,
+                        correctAnswers = correctAns
+                    )
+                )
                 id++
             }
         }
