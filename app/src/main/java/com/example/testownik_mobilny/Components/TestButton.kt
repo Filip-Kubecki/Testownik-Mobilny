@@ -34,16 +34,6 @@ import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.ui.theme.whitish
 
-@Preview(showBackground = true)
-@Composable
-fun Prev(){
-    TestButton(
-        "Bober",
-        20,
-        {}
-    )
-}
-
 @Composable
 fun TestButton(
     testName: String,

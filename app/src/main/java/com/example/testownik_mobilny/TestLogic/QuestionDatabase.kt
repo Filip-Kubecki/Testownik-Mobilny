@@ -17,7 +17,7 @@ data class Question(
 //    List of all answers - correct and wrong ones
     val answers: List<String>,
 //    List containing indexes of only correct answers
-    val correctAnswers: List<Int>
+    val correctAnswers: List<Boolean>
 ){
     override fun toString(): String {
         return "Question: $question\n ${answers.joinToString("\n")}"

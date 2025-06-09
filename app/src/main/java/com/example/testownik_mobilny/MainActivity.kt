@@ -1,5 +1,6 @@
 package com.example.testownik_mobilny
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,14 +12,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,20 +36,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.testownik_mobilny.Components.AddDataButton
+import com.example.testownik_mobilny.Components.ConfirmChoiceButton
 import com.example.testownik_mobilny.Components.ImportFromLocalButton
 import com.example.testownik_mobilny.Components.MainBody
 import com.example.testownik_mobilny.ui.theme.TestownikMobilnyTheme
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.Components.RoundIconButton
+import com.example.testownik_mobilny.Components.TestAnswerButton
 import com.example.testownik_mobilny.Components.TestButton
 import com.example.testownik_mobilny.Components.TestInfoBar
 import com.example.testownik_mobilny.Components.TestTopBar
 import com.example.testownik_mobilny.Components.TopBar
 import com.example.testownik_mobilny.TestLogic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
-import com.example.testownik_mobilny.ui.theme.lighterGray
-import com.example.testownik_mobilny.ui.theme.positiveGreen
-import com.example.testownik_mobilny.ui.theme.whitish
 import kotlin.collections.forEach
 
 
@@ -97,57 +95,69 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    @SuppressLint("ViewModelConstructorInComposable")
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate: () -> Unit){
+        val localViewModel = TestScreenViewModel()
+        localViewModel.init(database)
+//        Initalize test logic here
+
         Surface(
                 modifier = Modifier
                     .fillMaxSize()
                     .zIndex(1f)
                     .padding(innerPadding)
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    TestTopBar(
-                        database.name,
-                        goBack = navigate
-                    )
-                    TestInfoBar(database.numberOfQuestions.toString())
-//                    Question box
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxHeight(0.3f).fillMaxWidth()
-                    ){
-                        Text(
-//                            TODO: Add actively updated question index
-                            "1. ${database.questions.first().question}",
-                            fontSize = 20.sp,
-                            fontFamily = jetBrainsMonoFontFamily,
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-
-//                    Answers
+                Box{
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxHeight(0.8f).fillMaxWidth()
-                    ){
-                        database.questions.first().answers.forEach { answer ->
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        TestTopBar(
+                            database.name,
+                            goBack = navigate
+                        )
+                        TestInfoBar(database.numberOfQuestions.toString())
+//                    Question box
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxHeight(0.3f).fillMaxWidth()
+                        ){
                             Text(
-                                answer,
-                                fontSize = 16.sp,
-                                fontFamily = jetBrainsMonoFontFamily
+                                "${localViewModel.currentQuestion.id}. ${localViewModel.currentQuestion.question}",
+                                fontSize = 20.sp,
+                                fontFamily = jetBrainsMonoFontFamily,
+                                textAlign = TextAlign.Center,
                             )
                         }
+
+//                    Answers
+//                            TODO: works only with 4 or less answers, make it scale content dynamically
+//                            TODO: [img] tag doesn't work yet - implement img support
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier.fillMaxHeight(0.9f).fillMaxWidth()
+                        ){
+                            localViewModel.currentQuestion.answers.forEachIndexed { index, answer ->
+                                TestAnswerButton(
+                                    answer,
+                                    index,
+                                    localViewModel
+                                )
+                            }
+                        }
                     }
-
+                    Box(
+                        modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp)
+                    ){
+                        ConfirmChoiceButton(localViewModel)
+                    }
+                }
             }
-        }
     }
-
 
     @Composable
     fun MainMenu(mainViewModel: MainActivityViewModel, innerPadding: PaddingValues, navigate: (Int) -> Unit){

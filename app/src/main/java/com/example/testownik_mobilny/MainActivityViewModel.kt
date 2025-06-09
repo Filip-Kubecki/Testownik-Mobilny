@@ -18,9 +18,6 @@ import com.example.testownik_mobilny.TestLogic.QuestionDatabase
 import com.example.testownik_mobilny.TestLogic.TestFilesParser
 
 class MainActivityViewModel: ViewModel() {
-    var uri by mutableStateOf("".toUri())
-        private set
-
     var databaseList = mutableStateListOf<QuestionDatabase>()
         private set
 

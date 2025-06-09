@@ -25,7 +25,7 @@ class TestFilesParser(
 //                Log.d("SELF", file.name.toString())
                 val answers = mutableListOf<String>()
                 val header = file.readLines()[0]
-                val correctAns = header.drop(1).map{ it.toInt()}
+                val correctAns = header.drop(1).map{ it == '1' }
 
                 file.readLines().drop(2).forEach { line ->
                     answers.add(line)
