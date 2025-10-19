@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.TestScreenViewModel
-import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.ui.theme.positiveGreen
 
 @Composable

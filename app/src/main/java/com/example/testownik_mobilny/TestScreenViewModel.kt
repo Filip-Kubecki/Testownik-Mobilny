@@ -2,6 +2,7 @@ package com.example.testownik_mobilny
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -25,8 +26,8 @@ class TestScreenViewModel: ViewModel() {
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
-    private var currentQuestionIndex by mutableStateOf(0)
-    private var mistakeCounter by mutableStateOf(0)
+    private var currentQuestionIndex by mutableIntStateOf(0)
+    private var mistakeCounter by mutableIntStateOf(0)
 
     fun initButtonStates(){
         toggledButtons.clear()
@@ -91,12 +92,13 @@ class TestScreenViewModel: ViewModel() {
                 toggledButtons[index] = ToggleState.DISABLED
             }
 //            DEBUG
-//            Log.d("SELF", "VALUE = $value, INDEX = $index, TOGGLE-STATE = ${toggledButtons[index].name}")
+            Log.d("SELF", "VALUE = $value, INDEX = $index, TOGGLE-STATE = ${toggledButtons[index].name}")
         }
     }
 
     fun confirmButtonCheck(){
 //        Save progress
+//        FIXME: Breaks when unvisitedQuestions size = 0
         if (mistakeCounter == 0){
             if (testInformation.unvisitedQuestions.contains(currentQuestionIndex)){
                 testInformation.unvisitedQuestions.remove(currentQuestionIndex)

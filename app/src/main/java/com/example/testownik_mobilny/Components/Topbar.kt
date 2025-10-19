@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,7 +30,7 @@ fun TopBar(modifier: Modifier = Modifier) {
             .height(100.dp)
             .background(lighterGray)
             .padding(bottom = 0.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -43,10 +42,10 @@ fun TopBar(modifier: Modifier = Modifier) {
         Text(
             text = "Testownik",
             textAlign = TextAlign.Center,
-            fontSize = 28.sp,
+            fontSize = 22.sp,
             fontFamily = jetBrainsMonoFontFamily,
             color = Color.White,
-            modifier = Modifier.width(250.dp)
+            modifier = Modifier.fillMaxWidth(0.5f)
         )
 
         RoundIconButton(

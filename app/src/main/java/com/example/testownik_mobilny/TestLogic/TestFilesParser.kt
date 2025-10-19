@@ -9,7 +9,7 @@ class TestFilesParser(
     private val uri: String,
     private val context: Context
 ) {
-    val databaseFolderUri: String = uri
+//    val databaseFolderUri: String = uri
 
     fun getQuestionDatabase(): QuestionDatabase{
         Log.d("SELF", "Started parsing: $uri")
@@ -32,7 +32,7 @@ class TestFilesParser(
                 }
 
                 if (correctAns.size != answers.size){
-                    Log.d("SELF", "Wrong format: ${file.name} ${header.drop(1)} ${correctAns.size.toString()} ${answers.size}")
+                    Log.d("SELF", "Wrong format: ${file.name} ${header.drop(1)} ${correctAns.size} ${answers.size}")
                     return@forEach
                 }
 
@@ -53,10 +53,10 @@ class TestFilesParser(
     }
 
     private fun findDatabaseDirectory(directory: File?): File? {
-        if (folderContainsFiles(directory)){
-            return directory
+        return if (folderContainsFiles(directory)){
+            directory
         }else{
-            return findDatabaseDirectory(firstDirectory(directory))
+            findDatabaseDirectory(firstDirectory(directory))
         }
     }
 
@@ -65,6 +65,6 @@ class TestFilesParser(
     }
 
     private fun firstDirectory(directory: File?): File? {
-        return directory?.listFiles()?.firstOrNull(){ it.isDirectory }
+        return directory?.listFiles()?.firstOrNull { it.isDirectory }
     }
 }

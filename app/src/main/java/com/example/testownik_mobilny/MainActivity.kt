@@ -128,11 +128,11 @@ class MainActivity : ComponentActivity() {
 //                    Question box
                         Box(
                             contentAlignment = Alignment.Center,
-                            modifier = Modifier.fillMaxHeight(0.28f).fillMaxWidth()
+                            modifier = Modifier.fillMaxHeight(0.28f).fillMaxWidth(0.95f)
                         ){
                             Text(
                                 "${localViewModel.currentQuestion.id}. ${localViewModel.currentQuestion.question}",
-                                fontSize = 20.sp,
+                                fontSize = 18.sp,
                                 fontFamily = jetBrainsMonoFontFamily,
                                 textAlign = TextAlign.Center,
                             )
@@ -143,16 +143,16 @@ class MainActivity : ComponentActivity() {
 //                            TODO: [img] tag doesn't work yet - implement img support
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceEvenly,
+                            verticalArrangement = Arrangement.Top,
                             modifier = Modifier.fillMaxHeight(0.95f).fillMaxWidth().verticalScroll(rememberScrollState()),
                         ){
                             localViewModel.currentQuestion.answers.forEachIndexed { index, answer ->
-                                Spacer(modifier = Modifier.height(5.dp))
+                                Spacer(modifier = Modifier.height(12.dp))
                                 TestAnswerButton(
                                     answer,
                                     index,
                                     localViewModel,
-//                                    debugMode = true
+                                    debugMode = true
                                 )
                             }
                         }

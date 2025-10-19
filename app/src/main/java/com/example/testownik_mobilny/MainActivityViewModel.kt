@@ -1,22 +1,12 @@
 package com.example.testownik_mobilny
 
 import android.content.Context
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.mutableStateSetOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
-import com.example.testownik_mobilny.Components.TestButton
 import com.example.testownik_mobilny.TestLogic.QuestionDatabase
 import com.example.testownik_mobilny.TestLogic.TestFilesParser
 
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivityViewModel: ViewModel() {
     var databaseList = mutableStateListOf<QuestionDatabase>()
         private set
