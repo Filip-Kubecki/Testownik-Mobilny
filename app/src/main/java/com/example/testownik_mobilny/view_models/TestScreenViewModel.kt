@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny
+package com.example.testownik_mobilny.view_models
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -7,22 +7,30 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.testownik_mobilny.TestLogic.Question
-import com.example.testownik_mobilny.TestLogic.QuestionDatabase
+import com.example.testownik_mobilny.logic.Question
+import com.example.testownik_mobilny.logic.QuestionDatabase
 import kotlin.random.Random
 
+/**
+ * Holds test logic, states and variables.
+ *
+ * [questions] contains list off all questions in the database (each element is of type [Question])
+ *
+ * [testInformation] holds information about test database and about progress in learning
+ *
+ * [toggledButtons] holds state of button (if it was selected, correct, wrong, etc.)
+ *
+ * [currentQuestion]
+ */
 class TestScreenViewModel: ViewModel() {
 //    Values used for whole database
     var questions: List<Question> = mutableStateListOf<Question>()
         private set
-
     var testInformation: TestInfo = TestInfo()
         private set
-
 //    Values used for each question
     var toggledButtons = mutableStateListOf<ToggleState>()
         private set
-
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
@@ -31,7 +39,7 @@ class TestScreenViewModel: ViewModel() {
 
     fun initButtonStates(){
         toggledButtons.clear()
-        repeat(currentQuestion.answers.size) { it ->
+        repeat(currentQuestion.answers.size) {
             toggledButtons.add(ToggleState.IDLE)
         }
     }
@@ -116,18 +124,47 @@ class TestScreenViewModel: ViewModel() {
     }
 }
 
+/**
+ * Represents possible states of buttons used for answering
+ */
 enum class ToggleState{
-    IDLE, TOGGLED, CORRECT, WRONG, UNMARKED, DISABLED
+/** BEFORE CHECKING ANSWERS
+ *
+ *  default state - GRAY
+ **/
+    IDLE,
+    /** after selecting button - BLUE */
+    TOGGLED,
+/** AFTER CHECKING THE ANSWERS
+ *
+ *  TOGGLED answer was correct - GREEN
+ */
+    CORRECT,
+/** TOGGLED answer was wrong - RED */
+    WRONG,
+    /** answer was correct but wasn't selected - YELLOW */
+    UNMARKED,
+    /** unselected question that wasn't correct - GRAY */
+    DISABLED
 }
 
+/**
+ * Holds information about test database and about progress in learning
+ * @param name name of the current test database
+ * @param numberOfQuestions number of all questions (answered, memorized and unvisited)
+ * @param memorizedQuestions indexes of memorized questions (memorized question is one that will not appear again in test)
+ * @param answeredQuestions indexes of questions that have been answered at least once
+ * @param unvisitedQuestions indexes of questions that weren't answered since first test run
+ * @param timeSpent The duration of time that has passed since the test started.
+ * This value increases only while the test is actively running, and pauses when the test is inactive.
+ */
 data class TestInfo(
     var name: String = "",
     var numberOfQuestions: Int = 0,
-    var memorizedQuestions: MutableList<Int> = mutableListOf(),  // Indexes of memorized questions
-    var answeredQuestions: MutableList<Int> = mutableListOf(),   // Indexes of questions that have been answered
-                                                                 // at least once in current run
-    var unvisitedQuestions: MutableList<Int> = mutableListOf(),  // Questions that weren't answered in current run
-    var timeSpent: Int = 0,                 // How much time has passed since the test was first opened
+    var memorizedQuestions: MutableList<Int> = mutableListOf(),
+    var answeredQuestions: MutableList<Int> = mutableListOf(),
+    var unvisitedQuestions: MutableList<Int> = mutableListOf(),
+    var timeSpent: Int = 0,
 ){
     override fun toString(): String {
         return "Database: $name, Fully memorized questions: ${memorizedQuestions.size} \n" +

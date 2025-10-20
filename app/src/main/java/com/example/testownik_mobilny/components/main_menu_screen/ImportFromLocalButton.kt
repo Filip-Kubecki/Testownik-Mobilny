@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.main_menu_screen
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -19,12 +19,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.example.testownik_mobilny.MainActivityViewModel
+import com.example.testownik_mobilny.view_models.MainActivityViewModel
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.getFileNameFromUri
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.unZip
 
+/**
+ * Button that opens file explorer and lets you choose database .zip file
+ * that is imported as new database
+ */
 @Composable
 fun ImportFromLocalButton(
     modifier: Modifier = Modifier,

@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -13,6 +13,11 @@ import androidx.compose.ui.unit.dp
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.ui.theme.lighterGray
 
+/**
+ * Base for all circular buttons
+ * @param iconId source for [painterResource] image displayed on button (from resource folder)
+ * @param rotation rotation of icon [Image] from default position
+ */
 @Composable
 fun RoundIconButton(
     onClick: () -> Unit,

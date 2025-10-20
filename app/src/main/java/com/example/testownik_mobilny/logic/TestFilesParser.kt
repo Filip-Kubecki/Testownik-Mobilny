@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.TestLogic
+package com.example.testownik_mobilny.logic
 
 import android.content.Context
 import android.util.Log

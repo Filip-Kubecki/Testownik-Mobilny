@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.main_menu_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,8 +20,11 @@ import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 
+/**
+ * Container that lists imported databases
+ */
 @Composable
-fun MainBody(
+fun ImportedDatabaseContainer(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
@@ -33,7 +36,6 @@ fun MainBody(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
         val divH = 15.dp
         Spacer(modifier = Modifier.height(divH))

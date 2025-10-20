@@ -1,10 +1,10 @@
-package com.example.testownik_mobilny
+package com.example.testownik_mobilny.view_models
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.testownik_mobilny.TestLogic.QuestionDatabase
-import com.example.testownik_mobilny.TestLogic.TestFilesParser
+import com.example.testownik_mobilny.logic.QuestionDatabase
+import com.example.testownik_mobilny.logic.TestFilesParser
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivityViewModel: ViewModel() {

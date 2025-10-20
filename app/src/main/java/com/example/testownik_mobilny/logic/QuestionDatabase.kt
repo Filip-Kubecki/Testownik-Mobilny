@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.TestLogic
+package com.example.testownik_mobilny.logic
 
 data class QuestionDatabase(
     val name: String,

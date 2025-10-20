@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.main_menu_screen
 
 import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.animateFloatAsState
@@ -23,21 +23,23 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
 
+/**
+ * Button that pops up it's content on press
+ */
 @Composable
-fun AddDataButton(
+fun PopUpButton(
     modifier: Modifier = Modifier,
     initiallyOpen: Boolean = false,
     animationTime: Int = 500,
     content: @Composable () -> Unit
 ){
-    var isOpen by remember {
-        mutableStateOf(initiallyOpen)
-    }
+    var isOpen by remember { mutableStateOf(initiallyOpen) }
     val alpha = animateFloatAsState(
         targetValue = if(isOpen) 1f else 0f,
         animationSpec = tween(
@@ -71,7 +73,7 @@ fun AddDataButton(
                 .align(Alignment.BottomEnd)
         ) {
             RoundIconButton(
-                {isOpen = !isOpen},
+                onClick = { isOpen = !isOpen },
                 modifier = Modifier.border(2.dp, lightGray.copy(0.5f), CircleShape),
                 iconId = R.drawable.plus_icon,
                 rotation = iconRotation.value

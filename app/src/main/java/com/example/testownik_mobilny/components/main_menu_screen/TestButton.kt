@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.main_menu_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +30,12 @@ import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.ui.theme.whitish
 
+/**
+ * Contains data about test database and navigates
+ * user to corresponding test screen
+ * @param testName name of the database
+ * @param questionCount number of all questions in database
+ */
 @Composable
 fun TestButton(
     testName: String,
@@ -62,7 +68,6 @@ fun TestButton(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.8f)
-//                    .background(Color.Red)
             ) {
                 Text(
                     testName,

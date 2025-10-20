@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.test_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,10 +19,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
 
+/**
+ * Contains test database name, return button and option button
+ */
 @Composable
 fun TestTopBar(
     testName: String,

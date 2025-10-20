@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.test_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
@@ -15,9 +15,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.testownik_mobilny.R
-import com.example.testownik_mobilny.TestScreenViewModel
+import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import com.example.testownik_mobilny.ui.theme.positiveGreen
 
+/**
+ * Let's user check their answers and navigate to next question
+ */
 @Composable
 fun ConfirmChoiceButton(
     viewModel: TestScreenViewModel,

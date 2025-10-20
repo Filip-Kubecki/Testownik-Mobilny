@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.test_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.R
-import com.example.testownik_mobilny.TestScreenViewModel
-import com.example.testownik_mobilny.ToggleState
+import com.example.testownik_mobilny.view_models.TestScreenViewModel
+import com.example.testownik_mobilny.view_models.ToggleState
 import com.example.testownik_mobilny.ui.theme.debugOrange
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
@@ -42,6 +42,9 @@ import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.ui.theme.negativeRed
 import com.example.testownik_mobilny.ui.theme.undecidedYellow
 
+/**
+ * Contains answers
+ */
 @Composable
 fun TestAnswerButton(
     answer: String,

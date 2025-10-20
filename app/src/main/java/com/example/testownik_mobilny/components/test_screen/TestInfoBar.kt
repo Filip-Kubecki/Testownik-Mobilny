@@ -1,4 +1,4 @@
-package com.example.testownik_mobilny.Components
+package com.example.testownik_mobilny.components.test_screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -22,13 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testownik_mobilny.TestScreenViewModel
+import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.whitish
 import kotlinx.coroutines.delay
 import java.util.Locale
 
+/**
+ * Contains information's about test:
+ *
+ * time spend on current test
+ *
+ * number of unanswered, answered
+ * and memorized questions
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TestInfoBar(
