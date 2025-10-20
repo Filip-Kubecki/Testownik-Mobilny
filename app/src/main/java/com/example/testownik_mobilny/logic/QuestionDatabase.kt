@@ -1,9 +1,12 @@
 package com.example.testownik_mobilny.logic
 
+import java.io.File
+
 data class QuestionDatabase(
     val name: String,
     val numberOfQuestions: Int,
     val questions: List<Question>,
+    val directory: File?
 ){
     override fun toString(): String {
         return "Name: $name, number of questions: $numberOfQuestions"
@@ -17,7 +20,7 @@ data class Question(
 //    List of all answers - correct and wrong ones
     val answers: List<String>,
 //    List containing indexes of only correct answers
-    val correctAnswers: List<Boolean>
+    val correctAnswers: List<Boolean>,
 ){
     override fun toString(): String {
         return "Question: $question\n ${answers.joinToString("\n")}"

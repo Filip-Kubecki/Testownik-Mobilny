@@ -39,7 +39,10 @@ class TestScreenViewModel: ViewModel() {
 
     private var currentQuestionIndex by mutableIntStateOf(0)
     private var mistakeCounter by mutableIntStateOf(0)
-
+// TODO: Change how test works. Count how many times question was answered
+//    correctly and with each correct answer add point to counter and with each
+//    wrong answer subtract from counter. If the counter achieves set value (eg 3)
+//    test marks question as memorized.
 /**
  * How does the test work?
  *

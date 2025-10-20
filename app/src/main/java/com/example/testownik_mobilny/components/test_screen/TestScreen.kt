@@ -16,18 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -59,12 +55,10 @@ fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxHeight(0.28f).fillMaxWidth(0.95f)
                 ){
-                    Text(
-                        "${localViewModel.currentQuestion.id}. ${localViewModel.currentQuestion.question}",
-                        fontSize = 18.sp,
-                        fontFamily = jetBrainsMonoFontFamily,
-                        textAlign = TextAlign.Center,
-                    )
+                   QuestionContent(
+                       localViewModel,
+                       database.directory
+                   )
                 }
 
 //                    Answers
