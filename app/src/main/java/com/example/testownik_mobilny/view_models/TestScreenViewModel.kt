@@ -40,6 +40,43 @@ class TestScreenViewModel: ViewModel() {
     private var currentQuestionIndex by mutableIntStateOf(0)
     private var mistakeCounter by mutableIntStateOf(0)
 
+/**
+ * How does the test work?
+ *
+ * There are three lists containing different types of questions:
+ *
+ * - **unvisitedQuestions** – questions that have never appeared or were answered incorrectly before.
+ * - **answeredQuestions** – questions that have appeared before and were answered correctly once.
+ * - **memorizedQuestions** – questions that were answered correctly twice in a row.
+ *
+ * When you answer a question correctly, it first moves to the *answeredQuestions* list.
+ * After a second correct answer, it moves to the *memorizedQuestions* list.
+ * If a question is answered incorrectly at any stage, it returns to the *unvisitedQuestions* list.
+ *
+ * If both the *unvisitedQuestions* and *answeredQuestions* lists are empty,
+ * it means all questions have been memorized and the test ends with the finish screen.
+ */
+//    Logic
+    fun init(database: QuestionDatabase){
+//        Pass database from outside
+    questions = database.questions
+
+    Log.d("SELF", "Test Initialization ${database.name}")
+//        Test info initialization
+    testInformation.name = database.name
+    testInformation.numberOfQuestions = database.numberOfQuestions
+    repeat(
+        database.numberOfQuestions
+    ) { it ->
+        testInformation.unvisitedQuestions.add(it, it)
+    }
+//        Init current question with random value
+    nextRandomQuestion()
+
+//        Init button states
+    initButtonStates()
+}
+
     fun initButtonStates(){
         toggledButtons.clear()
         repeat(currentQuestion.answers.size) {
@@ -55,33 +92,13 @@ class TestScreenViewModel: ViewModel() {
         }
     }
 
-    fun init(database: QuestionDatabase){
-//        Pass database from outside
-        questions = database.questions
-
-        Log.d("SELF", "Test Initialization ${database.name}")
-//        Test info initialization
-        testInformation.name = database.name
-        testInformation.numberOfQuestions = database.numberOfQuestions
-        repeat(
-            database.numberOfQuestions
-        ) { it ->
-            testInformation.unvisitedQuestions.add(it, it)
-        }
-//        Init current question with random value
-        nextRandomQuestion()
-
-//        Init button states
-        initButtonStates()
-    }
-
     fun nextRandomQuestion(){
         currentQuestionIndex = (
-        if (Random.nextInt(100) < 5 && testInformation.answeredQuestions.isNotEmpty()) {
-    //            5% chance to get question from answeredQuestions
+        if (Random.nextInt(100) < 25 && testInformation.answeredQuestions.isNotEmpty()) {
+    //            25% chance to get question from answeredQuestions
             testInformation.answeredQuestions.random()
         } else if(testInformation.unvisitedQuestions.isNotEmpty()){
-    //            95% chance to get question from unvisitedQuestions
+    //            75% chance to get question from unvisitedQuestions
             testInformation.unvisitedQuestions.random()
         } else if(testInformation.answeredQuestions.isNotEmpty()) {
 //            When there is no questions in unvisitedQuestions
@@ -95,7 +112,7 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun checkAnswers(){
-        Log.d("SELF", "CHECK STATUS")
+//        Log.d("SELF", "CHECK STATUS")
         currentQuestion.correctAnswers.forEachIndexed { index, value ->
             if (value && toggledButtons[index] == ToggleState.TOGGLED){
                 toggledButtons[index] = ToggleState.CORRECT
@@ -109,13 +126,14 @@ class TestScreenViewModel: ViewModel() {
                 toggledButtons[index] = ToggleState.DISABLED
             }
 //            DEBUG
-            Log.d("SELF", "VALUE = $value, INDEX = $index, TOGGLE-STATE = ${toggledButtons[index].name}")
+//            Log.d("SELF", "VALUE = $value, INDEX = $index, TOGGLE-STATE = ${toggledButtons[index].name}")
         }
     }
 
     fun confirmButtonCheck(){
 //        Save progress
         if (mistakeCounter == 0){
+//            Correct answer
             if (testInformation.unvisitedQuestions.contains(currentQuestionIndex)){
                 testInformation.unvisitedQuestions.remove(currentQuestionIndex)
                 testInformation.answeredQuestions.add(currentQuestionIndex)
@@ -123,7 +141,25 @@ class TestScreenViewModel: ViewModel() {
                 testInformation.answeredQuestions.remove(currentQuestionIndex)
                 testInformation.memorizedQuestions.add(currentQuestionIndex)
             }
+        }else{
+            Log.d("SELF", "Remove on wrong answer")
+//            Wrong answer
+            if (testInformation.answeredQuestions.contains(currentQuestionIndex)) {
+                Log.d("SELF", "Remove on wrong answer")
+                Log.d("SELF", "Before: ${testInformation.unvisitedQuestions.count()}")
+                testInformation.answeredQuestions.remove(currentQuestionIndex)
+                Log.d("SELF", "After: ${testInformation.unvisitedQuestions.count()}")
+                testInformation.unvisitedQuestions.add(currentQuestionIndex)
+            }
         }
+
+
+        Log.d(
+            "SELF",
+            "Un: ${testInformation.unvisitedQuestions.count()} " +
+            "Ans: ${testInformation.answeredQuestions.count()} " +
+            "Mem: ${testInformation.memorizedQuestions.count()}"
+        )
 
 //        Checks for ending state
         if (testInformation.unvisitedQuestions.isEmpty() &&

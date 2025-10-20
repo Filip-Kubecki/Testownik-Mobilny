@@ -72,7 +72,9 @@ fun TestInfoBar(
             modifier = Modifier.fillMaxWidth(0.88f)
         ) {viewModel.testInformation.memorizedQuestions
             Text(
-                "Liczba pytań: ${viewModel.testInformation.memorizedQuestions.size}/${viewModel.testInformation.answeredQuestions.size}/${viewModel.testInformation.numberOfQuestions}",
+                "Liczba pytań: ${viewModel.testInformation.memorizedQuestions.count()}/" +
+                        "${viewModel.testInformation.answeredQuestions.count()}/" +
+                        "${viewModel.testInformation.numberOfQuestions}",
                 style = localTextStyle
             )
             Text(
