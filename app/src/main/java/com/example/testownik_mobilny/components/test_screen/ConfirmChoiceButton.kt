@@ -38,8 +38,8 @@ fun ConfirmChoiceButton(
                 isToggled = false
                 viewModel.confirmButtonCheck()
             }
-        }
-        ,
+        },
+        enabled = !viewModel.finishedScreenState,
         colors = ButtonDefaults.buttonColors(
             containerColor = positiveGreen
         ),
@@ -47,7 +47,10 @@ fun ConfirmChoiceButton(
             .size(75.dp, 75.dp)
     ){
         Image(
-            painter = painterResource(if(isToggled) R.drawable.right_icon else R.drawable.confirm_icon),
+            painter = painterResource(
+                if(isToggled) R.drawable.right_icon
+                else R.drawable.confirm_icon
+            ),
             contentDescription = iconDescription,
             contentScale = ContentScale.Fit,
             modifier = Modifier.rotate(rotation)

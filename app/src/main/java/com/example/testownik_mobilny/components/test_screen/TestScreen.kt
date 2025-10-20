@@ -68,8 +68,8 @@ fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate
                 }
 
 //                    Answers
-//                            TODO: scale content dynamically
-//                            TODO: [img] tag doesn't work yet - implement img support
+//                    TODO: scale content dynamically
+//                    TODO: [img] tag doesn't work yet - implement img support
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
@@ -90,6 +90,9 @@ fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate
                 modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp)
             ){
                 ConfirmChoiceButton(localViewModel)
+            }
+            if (localViewModel.finishedScreenState){
+                FinishedTestOverlay(navigate)
             }
         }
     }

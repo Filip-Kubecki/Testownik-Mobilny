@@ -3,6 +3,7 @@ package com.example.testownik_mobilny.components.test_screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,9 +63,8 @@ fun TestAnswerButton(
     }
 //    var enabled = !(toggled != ToggleState.IDLE || toggled != ToggleState.TOGGLED)
     var size by remember { mutableStateOf(IntSize.Zero) }
+    var focusable by remember { mutableStateOf(true) }
     var roundness = 15
-//    val xOffset = -16
-//    val yOffset = if(size.height > 70) (-1*size.height/95) else -20
 
     Button(
         onClick = {
@@ -74,7 +74,6 @@ fun TestAnswerButton(
                 viewModel.toggleButton(id)
             }
         },
-//        enabled = enabled,
         shape = RoundedCornerShape(percent = roundness),
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor.copy(alpha = 0.15f),
@@ -90,6 +89,7 @@ fun TestAnswerButton(
             .onGloballyPositioned{ cord ->
                 size = cord.size
             }
+            .focusable(focusable)
     ){
         Box(
             contentAlignment = Alignment.Center,

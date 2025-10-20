@@ -34,6 +34,9 @@ class TestScreenViewModel: ViewModel() {
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
+    var finishedScreenState by mutableStateOf(false)
+        private set
+
     private var currentQuestionIndex by mutableIntStateOf(0)
     private var mistakeCounter by mutableIntStateOf(0)
 
@@ -73,13 +76,19 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun nextRandomQuestion(){
-        currentQuestionIndex = if (Random.nextInt(100) < 5 && testInformation.answeredQuestions.isNotEmpty()) {
-//            5% chance to get question from answeredQuestions
+        currentQuestionIndex = (
+        if (Random.nextInt(100) < 5 && testInformation.answeredQuestions.isNotEmpty()) {
+    //            5% chance to get question from answeredQuestions
+            testInformation.answeredQuestions.random()
+        } else if(testInformation.unvisitedQuestions.isNotEmpty()){
+    //            95% chance to get question from unvisitedQuestions
+            testInformation.unvisitedQuestions.random()
+        } else if(testInformation.answeredQuestions.isNotEmpty()) {
+//            When there is no questions in unvisitedQuestions
             testInformation.answeredQuestions.random()
         } else {
-//            95% chance to get question from unvisitedQuestions
-            testInformation.unvisitedQuestions.random()
-        }
+
+        }) as Int
 
         currentQuestion = questions[currentQuestionIndex]
         Log.d("SELF", "Next question: ${currentQuestion.id}. ${currentQuestion.question}")
@@ -106,7 +115,6 @@ class TestScreenViewModel: ViewModel() {
 
     fun confirmButtonCheck(){
 //        Save progress
-//        FIXME: Breaks when unvisitedQuestions size = 0
         if (mistakeCounter == 0){
             if (testInformation.unvisitedQuestions.contains(currentQuestionIndex)){
                 testInformation.unvisitedQuestions.remove(currentQuestionIndex)
@@ -117,10 +125,24 @@ class TestScreenViewModel: ViewModel() {
             }
         }
 
+//        Checks for ending state
+        if (testInformation.unvisitedQuestions.isEmpty() &&
+            testInformation.answeredQuestions.isEmpty()
+        ){
+            Log.d("SELF", "YOU WON YAY")
+            testIsDone()
+            return
+        }
+
 //        Go to next question
         mistakeCounter = 0
         nextRandomQuestion()
         initButtonStates()
+    }
+
+    private fun testIsDone(){
+        finishedScreenState = true
+
     }
 }
 
