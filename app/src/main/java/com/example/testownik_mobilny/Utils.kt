@@ -40,6 +40,10 @@ fun unZip(context: Context, zipUri: Uri, targetDirName: String) {
     } ?: throw FileNotFoundException("Cannot open URI: $zipUri")
 }
 
+fun removeImgTag(value : String) : String{
+    return value.replace("[img]","").replace("[/img]","")
+}
+
 fun getFileNameFromUri(context: Context, uri: Uri): String? {
     var result: String? = null
     if (uri.scheme == "content") {
