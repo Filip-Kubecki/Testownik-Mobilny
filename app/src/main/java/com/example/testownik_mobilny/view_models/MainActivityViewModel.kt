@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.logic.TestFilesParser
+import com.example.testownik_mobilny.ui.theme.databaseDirectoryName
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivityViewModel: ViewModel() {
@@ -12,13 +13,22 @@ class MainActivityViewModel: ViewModel() {
         private set
 
     fun existingDatabases(context: Context){
+//        Directory for databases
+        val databaseDir = context.filesDir.resolve(databaseDirectoryName)
+
+//        Check if database directory exist - if not create it
+        if (!databaseDir.exists() || !databaseDir.isDirectory){
+            databaseDir.mkdirs()
+        }
+
         databaseList.clear()
-        if(context.filesDir.listFiles()?.any{ it.isDirectory } == false){
+        if(databaseDir.listFiles()?.any{ it.isDirectory } == false){
             return
         }
 
-        val directories = context.filesDir.listFiles().filter { it.isDirectory }
-
+//        Put all sub directories in list
+        val directories = databaseDir.listFiles().filter { it.isDirectory }
+//        TODO: make it safer. Check for empty folder and folders that don't match database criteria
         directories.forEach { dir ->
             val parser = TestFilesParser(dir.name.toString(), context)
             databaseList.add(parser.getQuestionDatabase())

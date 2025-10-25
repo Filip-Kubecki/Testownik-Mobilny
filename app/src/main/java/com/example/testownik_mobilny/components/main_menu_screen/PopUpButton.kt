@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,7 +26,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.components.RoundIconButton
-import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
@@ -75,7 +76,7 @@ fun PopUpButton(
             RoundIconButton(
                 onClick = { isOpen = !isOpen },
                 modifier = Modifier.border(2.dp, lightGray.copy(0.5f), CircleShape),
-                iconId = R.drawable.plus_icon,
+                icon = Icons.Filled.Add,
                 rotation = iconRotation.value
             )
         }

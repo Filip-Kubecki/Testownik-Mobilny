@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,12 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.testownik_mobilny.AppSettings
 import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.view_models.MainActivityViewModel
-import com.example.testownik_mobilny.R
 
 @Composable
-fun MainMenuScreen(mainViewModel: MainActivityViewModel, innerPadding: PaddingValues, navigate: (Int) -> Unit){
+fun MainMenuScreen(
+    mainViewModel: MainActivityViewModel,
+    innerPadding: PaddingValues,
+    dataStore: AppSettings,
+    navigate: (Int) -> Unit,
+    settingsNav: () -> Unit
+){
     val context = LocalContext.current
     mainViewModel.existingDatabases(context)
     Surface(
@@ -33,7 +41,10 @@ fun MainMenuScreen(mainViewModel: MainActivityViewModel, innerPadding: PaddingVa
                 modifier = Modifier.fillMaxSize()
             ) {
 //              Title of app, icon and settings button
-                TopBar(modifier = Modifier.align(Alignment.TopStart))
+                TopBar(
+                    settingsNav,
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
 
 //              Container for elements
                 ImportedDatabaseContainer(
@@ -53,7 +64,7 @@ fun MainMenuScreen(mainViewModel: MainActivityViewModel, innerPadding: PaddingVa
                     ) {
                         RoundIconButton(
                             {},
-                            iconId = R.drawable.create_new,
+                            icon = Icons.Filled.Create,
                             enabled = false
                         )
                         ImportFromLocalButton(
@@ -61,9 +72,7 @@ fun MainMenuScreen(mainViewModel: MainActivityViewModel, innerPadding: PaddingVa
                         )
                     }
                 }
-
             }
-
         }
     }
 }

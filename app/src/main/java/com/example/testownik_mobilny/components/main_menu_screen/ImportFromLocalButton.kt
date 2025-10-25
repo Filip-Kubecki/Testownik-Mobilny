@@ -3,10 +3,12 @@ package com.example.testownik_mobilny.components.main_menu_screen
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,16 +16,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.example.testownik_mobilny.view_models.MainActivityViewModel
-import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.getFileNameFromUri
+import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.unZip
+import com.example.testownik_mobilny.view_models.MainActivityViewModel
 
 /**
  * Button that opens file explorer and lets you choose database .zip file
@@ -45,20 +47,25 @@ fun ImportFromLocalButton(
     }
 
 //    UI layer
-    Button(
+    IconButton(
         onClick = {
             fileExplorerLauncher.launch("*/*")
         },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = lighterGray
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = lighterGray,
+            contentColor = whitish,
+            disabledContentColor = darkGray,
+            disabledContainerColor = darkGray
         ),
         modifier = modifier
-            .size(75.dp, 75.dp)
+            .size(75.dp)
     ){
-        Image(
-            painter = painterResource(R.drawable.import_data_icon),
-            contentDescription = "Import data from local",
-            contentScale = ContentScale.Fit
+        Icon(
+            Icons.Filled.ExitToApp,
+            "",
+            modifier = Modifier
+                .rotate(90f)
+                .size(34.dp)
         )
     }
 

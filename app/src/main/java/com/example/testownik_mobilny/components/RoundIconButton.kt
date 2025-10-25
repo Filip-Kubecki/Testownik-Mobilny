@@ -2,45 +2,39 @@ package com.example.testownik_mobilny.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.example.testownik_mobilny.R
-import com.example.testownik_mobilny.ui.theme.lighterGray
 
 /**
  * Base for all circular buttons
- * @param iconId source for [painterResource] image displayed on button (from resource folder)
+ * @param icon source for [ImageVector] image displayed on button (from resource folder)
  * @param rotation rotation of icon [Image] from default position
  */
 @Composable
 fun RoundIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    iconId: Int = R.drawable.app_icon,
+    icon: ImageVector  = Icons.Filled.AddCircle,
     iconDescription: String = "Icon",
     rotation: Float = 0f,
     enabled: Boolean = true
 ){
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = lighterGray
-        ),
-        enabled = enabled,
-        modifier = modifier
-            .size(75.dp, 75.dp)
-    ){
-        Image(
-            painter = painterResource(iconId),
+//    SETTINGS
+    IconButton(
+        onClick,
+        modifier = Modifier.size(75.dp)
+    ) {
+        Icon(
+            icon,
             contentDescription = iconDescription,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.rotate(rotation)
+            modifier = Modifier.size(34.dp).rotate(rotation)
         )
     }
 }

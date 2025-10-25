@@ -22,12 +22,17 @@ import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 
 /**
  * Contains app title, icon and settings button
  */
 @Composable
-fun TopBar(modifier: Modifier = Modifier) {
+fun TopBar(
+    settingsNav: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -53,9 +58,9 @@ fun TopBar(modifier: Modifier = Modifier) {
         )
 
         RoundIconButton(
-            onClick = {},
+            onClick = settingsNav,
             modifier = Modifier,
-            iconId = R.drawable.settings_icon
+            icon = Icons.Filled.Settings
         )
     }
 }

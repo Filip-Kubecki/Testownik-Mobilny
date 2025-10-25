@@ -2,6 +2,7 @@ package com.example.testownik_mobilny.logic
 
 import android.content.Context
 import android.util.Log
+import com.example.testownik_mobilny.ui.theme.databaseDirectoryName
 import java.io.File
 import java.nio.charset.Charset
 
@@ -15,7 +16,7 @@ class TestFilesParser(
         Log.d("SELF", "Started parsing: $uri")
         val questions = mutableListOf<Question>()
 
-        val databaseDir = findDatabaseDirectory(File(context.filesDir, uri))
+        val databaseDir = findDatabaseDirectory(File(context.filesDir.resolve(databaseDirectoryName), uri))
         var id = 1
 
 //        Lists all files in database directory
@@ -55,7 +56,8 @@ class TestFilesParser(
     private fun findDatabaseDirectory(directory: File?): File? {
         return if (folderContainsFiles(directory)){
             directory
-        }else{
+        }
+        else{
             findDatabaseDirectory(firstDirectory(directory))
         }
     }

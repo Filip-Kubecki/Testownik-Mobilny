@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,8 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.R
+import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
 
@@ -62,8 +64,7 @@ fun TestTopBar(
         RoundIconButton(
             onClick = goBack,
             modifier = Modifier.size(80.dp, 80.dp),
-            iconId = R.drawable.plus_icon,
-            rotation = 45f
+            icon = Icons.Filled.Close,
         )
     }
 }

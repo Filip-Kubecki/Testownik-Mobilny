@@ -29,7 +29,12 @@ import com.example.testownik_mobilny.view_models.TestScreenViewModel
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate: () -> Unit){
+fun TestScreen(
+    innerPadding: PaddingValues,
+    database: QuestionDatabase,
+    navigate: () -> Unit,
+    settingsNav: () -> Unit
+){
     val localViewModel = TestScreenViewModel()
     LaunchedEffect(Unit){
         localViewModel.init(database)
@@ -70,7 +75,6 @@ fun TestScreen(innerPadding: PaddingValues, database: QuestionDatabase, navigate
 
 //                    Answers
 //                    TODO: scale content dynamically
-//                    TODO: [img] tag doesn't work yet - implement img support
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
