@@ -2,6 +2,7 @@ package com.example.testownik_mobilny.view_models
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.logic.TestFilesParser
@@ -9,8 +10,19 @@ import com.example.testownik_mobilny.ui.theme.databaseDirectoryName
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class MainActivityViewModel: ViewModel() {
+    var settingsEnabled = mutableStateOf(false)
+        private set
+
     var databaseList = mutableStateListOf<QuestionDatabase>()
         private set
+
+    fun toggleSettings(){
+        settingsEnabled.value = true
+    }
+
+    fun disableSettings(){
+        settingsEnabled.value = false
+    }
 
     fun existingDatabases(context: Context){
 //        Directory for databases

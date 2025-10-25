@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import okio.IOException
 
-
 val Context.dataStore by preferencesDataStore("AppSettings")
 
 class AppSettings(

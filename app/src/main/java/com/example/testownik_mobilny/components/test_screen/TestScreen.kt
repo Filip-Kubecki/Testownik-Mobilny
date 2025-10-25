@@ -26,6 +26,11 @@ import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 
+
+enum class ScreenStates{
+
+}
+
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -36,6 +41,7 @@ fun TestScreen(
     settingsNav: () -> Unit
 ){
     val localViewModel = TestScreenViewModel()
+
     LaunchedEffect(Unit){
         localViewModel.init(database)
     }
@@ -56,6 +62,7 @@ fun TestScreen(
                     goBack = navigate
                 )
                 TestInfoBar(localViewModel)
+
 //                    Question box
                 Box(
                     modifier = Modifier
@@ -67,10 +74,10 @@ fun TestScreen(
                             end = 20.dp
                         )
                 ){
-                   QuestionContent(
-                       localViewModel,
-                       database.directory
-                   )
+                    QuestionContent(
+                        localViewModel,
+                        database.directory
+                    )
                 }
 
 //                    Answers
@@ -96,10 +103,16 @@ fun TestScreen(
                 }
             }
             Box(
-                modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp)
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(20.dp)
             ){
-                ConfirmChoiceButton(localViewModel)
+                ConfirmChoiceButton(
+                    localViewModel
+                )
             }
+
+
             if (localViewModel.finishedScreenState){
                 FinishedTestOverlay(navigate)
             }

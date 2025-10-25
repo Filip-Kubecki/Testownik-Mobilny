@@ -22,13 +22,14 @@ fun RoundIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     icon: ImageVector  = Icons.Filled.AddCircle,
-    iconDescription: String = "Icon",
+    iconDescription: String = "Icon button",
     rotation: Float = 0f,
     enabled: Boolean = true
 ){
 //    SETTINGS
     IconButton(
         onClick,
+        enabled = enabled,
         modifier = Modifier.size(75.dp)
     ) {
         Icon(

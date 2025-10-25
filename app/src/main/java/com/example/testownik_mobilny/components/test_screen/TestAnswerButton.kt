@@ -132,6 +132,7 @@ fun TestAnswerButton(
                         .background(whitish)
                 )
             }
+
 //            DEBUG MODE
             if (debugMode && viewModel.currentQuestion.correctAnswers[id]){
                 Box(
@@ -139,7 +140,7 @@ fun TestAnswerButton(
                         .size(30.dp)
                         .clip(RoundedCornerShape(percent = roundness))
                         .background(debugOrange, shape = CircleShape)
-                        .align(Alignment.TopStart)
+                        .align(Alignment.TopEnd)
                 ){
                     Image(
                         painter = painterResource(R.drawable.debug_icon),

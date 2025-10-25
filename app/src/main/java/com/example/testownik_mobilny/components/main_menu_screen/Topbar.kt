@@ -24,6 +24,7 @@ import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import com.example.testownik_mobilny.view_models.MainActivityViewModel
 
 /**
  * Contains app title, icon and settings button
@@ -31,7 +32,8 @@ import androidx.compose.material.icons.filled.Settings
 @Composable
 fun TopBar(
     settingsNav: () -> Unit,
-    modifier: Modifier = Modifier
+    mainViewModel: MainActivityViewModel,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -58,8 +60,12 @@ fun TopBar(
         )
 
         RoundIconButton(
-            onClick = settingsNav,
+            onClick = {
+                mainViewModel.disableSettings()
+                settingsNav.invoke()
+            },
             modifier = Modifier,
+            enabled = mainViewModel.settingsEnabled.value,
             icon = Icons.Filled.Settings
         )
     }

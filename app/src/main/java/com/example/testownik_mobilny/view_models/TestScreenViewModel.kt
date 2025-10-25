@@ -34,6 +34,10 @@ class TestScreenViewModel: ViewModel() {
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
+//    Two states 0 for fade in, 1 for fade out
+    var screenState by mutableStateOf(0)
+        private set
+
     var finishedScreenState by mutableStateOf(false)
         private set
 
@@ -97,11 +101,11 @@ class TestScreenViewModel: ViewModel() {
 
     fun nextRandomQuestion(){
         currentQuestionIndex = (
-        if (Random.nextInt(100) < 25 && testInformation.answeredQuestions.isNotEmpty()) {
-    //            25% chance to get question from answeredQuestions
+        if (Random.nextInt(100) > 15 && testInformation.answeredQuestions.isNotEmpty()) {
+    //            15% chance to get question from answeredQuestions
             testInformation.answeredQuestions.random()
         } else if(testInformation.unvisitedQuestions.isNotEmpty()){
-    //            75% chance to get question from unvisitedQuestions
+    //            85% chance to get question from unvisitedQuestions
             testInformation.unvisitedQuestions.random()
         } else if(testInformation.answeredQuestions.isNotEmpty()) {
 //            When there is no questions in unvisitedQuestions
