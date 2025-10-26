@@ -48,6 +48,7 @@ fun ConfirmChoiceButton(
             } else {
                 isToggled = false
                 viewModel.confirmButtonCheck()
+                viewModel.resetContentImageVisibility()
             }
         },
         enabled = !viewModel.finishedScreenState,

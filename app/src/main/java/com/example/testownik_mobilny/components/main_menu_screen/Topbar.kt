@@ -48,12 +48,12 @@ fun TopBar(
             painter = painterResource(R.drawable.app_icon),
             contentDescription = "Bulb",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.size(70.dp, 70.dp)
+            modifier = Modifier.size(60.dp)
         )
         Text(
             text = "Testownik",
             textAlign = TextAlign.Center,
-            fontSize = 22.sp,
+            fontSize = 26.sp,
             fontFamily = jetBrainsMonoFontFamily,
             color = Color.White,
             modifier = Modifier.fillMaxWidth(0.5f)

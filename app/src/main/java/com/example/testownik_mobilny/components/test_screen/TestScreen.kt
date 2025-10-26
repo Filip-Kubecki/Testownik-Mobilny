@@ -27,9 +27,6 @@ import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 
 
-enum class ScreenStates{
-
-}
 
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -68,7 +65,7 @@ fun TestScreen(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
                         .padding(
-                            top = 20.dp,
+                            top = 10.dp,
                             bottom = 10.dp,
                             start = 20.dp,
                             end = 20.dp
@@ -91,7 +88,6 @@ fun TestScreen(
                         .verticalScroll(rememberScrollState()),
                 ){
                     localViewModel.currentQuestion.answers.forEachIndexed { index, answer ->
-                        Spacer(modifier = Modifier.height(12.dp))
                         TestAnswerButton(
                             answer,
                             index,
@@ -99,7 +95,9 @@ fun TestScreen(
                             database.directory,
                             debugMode = true
                         )
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
+                    Spacer(modifier = Modifier.height(60.dp))
                 }
             }
             Box(

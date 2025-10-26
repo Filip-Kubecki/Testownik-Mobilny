@@ -35,7 +35,10 @@ class TestScreenViewModel: ViewModel() {
         private set
 
 //    Two states 0 for fade in, 1 for fade out
-    var screenState by mutableStateOf(0)
+//    var screenState by mutableStateOf(0)
+//        private set
+
+    var questionContentImageVisibility by mutableStateOf( true )
         private set
 
     var finishedScreenState by mutableStateOf(false)
@@ -183,6 +186,13 @@ class TestScreenViewModel: ViewModel() {
         initButtonStates()
     }
 
+    fun resetContentImageVisibility() {
+        questionContentImageVisibility = true
+    }
+
+    fun changeContentImageVisibility(){
+        questionContentImageVisibility = !questionContentImageVisibility
+    }
     private fun testIsDone(){
         finishedScreenState = true
 

@@ -26,8 +26,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val mainViewModel = MainActivityViewModel()
 
-//      TODO: apply material 3 icons - and other things
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {

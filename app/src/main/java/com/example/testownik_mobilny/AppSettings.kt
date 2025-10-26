@@ -30,14 +30,25 @@ class AppSettings(
         }
     }
 
+    val debugEnable = context.dataStore.data.map { preferences ->
+        preferences[debugEnableKey] ?: false
+    }
+
     suspend fun setFontSize(size: FontSize){
         context.dataStore.edit { settings ->
             settings[fontSizeKey] = size.toString()
         }
     }
 
+    suspend fun setDebugEnable(value: Boolean){
+        context.dataStore.edit { settings ->
+            settings[debugEnableKey] = value.toString()
+        }
+    }
+
     companion object{
         val fontSizeKey = stringPreferencesKey("font_size_key")
+        val debugEnableKey = stringPreferencesKey("debug_enable_key")
     }
 }
 

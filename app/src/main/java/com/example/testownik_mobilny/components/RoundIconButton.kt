@@ -26,11 +26,10 @@ fun RoundIconButton(
     rotation: Float = 0f,
     enabled: Boolean = true
 ){
-//    SETTINGS
     IconButton(
         onClick,
         enabled = enabled,
-        modifier = Modifier.size(75.dp)
+        modifier = modifier.size(75.dp)
     ) {
         Icon(
             icon,
