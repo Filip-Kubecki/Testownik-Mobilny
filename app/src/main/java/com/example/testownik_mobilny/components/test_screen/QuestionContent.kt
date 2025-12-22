@@ -1,3 +1,5 @@
+@file:Suppress("LABEL_NAME_CLASH")
+
 package com.example.testownik_mobilny.components.test_screen
 
 import androidx.compose.animation.AnimatedVisibility
@@ -34,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.testownik_mobilny.removeImgTag
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import java.io.File
 
@@ -43,8 +46,8 @@ fun QuestionContent(
     directory: File?,
 ){
 //    Regex finding img sources in between [img] tags
-    var regex = Regex("\\[img].*?\\[/img]", RegexOption.DOT_MATCHES_ALL)
-    var containsImg = viewModel.currentQuestion.question.contains(regex)
+    val regex = Regex("\\[img].*?\\[/img]", RegexOption.DOT_MATCHES_ALL)
+    val containsImg = viewModel.currentQuestion.question.contains(regex)
 
     val density = LocalDensity.current
 
@@ -54,9 +57,9 @@ fun QuestionContent(
         modifier = Modifier.fillMaxWidth()
     ) {
         if (containsImg){
-            var src = regex.find(viewModel.currentQuestion.question)
+            val src = regex.find(viewModel.currentQuestion.question)
             val srcString = src?.groupValues?.get(0).toString()
-            var img = removeImgTag(srcString)
+            val img = removeImgTag(srcString)
             val file = File(directory, img)
 
             Column(modifier = Modifier.fillMaxWidth()){
@@ -77,6 +80,7 @@ fun QuestionContent(
                         modifier = Modifier
                             .heightIn(min = 50.dp)
                             .fillMaxWidth()
+                            .background(whitish) // Added because some .png don't have background
                     )
                 }
                 IconButton(

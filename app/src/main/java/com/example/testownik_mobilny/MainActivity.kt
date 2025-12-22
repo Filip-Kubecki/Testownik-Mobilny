@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
                         ){
                             MainMenuScreen(
                                 mainViewModel,
-                                innerPadding,
                                 dataStore,
                                 navigate = { databaseIndex ->
                                     navController.navigate("TestScreen/$databaseIndex")

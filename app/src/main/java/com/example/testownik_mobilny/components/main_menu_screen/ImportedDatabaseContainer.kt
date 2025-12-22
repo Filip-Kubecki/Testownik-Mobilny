@@ -2,13 +2,14 @@ package com.example.testownik_mobilny.components.main_menu_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,28 +27,31 @@ import com.example.testownik_mobilny.ui.theme.lightGray
 @Composable
 fun ImportedDatabaseContainer(
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: LazyListScope.() -> Unit
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
             .background(darkGray)
-            .fillMaxWidth()
-            .padding(top = 0.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        val divH = 15.dp
-        Spacer(modifier = Modifier.height(divH))
-        Text(
-            "Ostatnie:",
-            color = lightGray,
-            fontFamily = jetBrainsMonoFontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            modifier = Modifier.fillMaxWidth().padding(start = 20.dp)
-        )
-        Spacer(modifier = Modifier.height(divH * 0.6f))
+        item {
+            val divH = 15.dp
+            Spacer(modifier = Modifier.height(divH))
+            Text(
+                "Ostatnie:",
+                color = lightGray,
+                fontFamily = jetBrainsMonoFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp)
+            )
+        }
+
         content()
     }
 }

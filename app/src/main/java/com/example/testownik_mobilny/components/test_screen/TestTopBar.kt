@@ -26,6 +26,7 @@ import com.example.testownik_mobilny.ui.theme.lighterGray
 /**
  * Contains test database name, return button and option button
  */
+// Change to material 3 top bar
 @Composable
 fun TestTopBar(
     testName: String,

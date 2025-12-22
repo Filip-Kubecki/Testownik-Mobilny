@@ -27,7 +27,6 @@ import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 
 
-
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -78,7 +77,7 @@ fun TestScreen(
                 }
 
 //                    Answers
-//                    TODO: scale content dynamically
+//              TODO: scale content dynamically
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top,
