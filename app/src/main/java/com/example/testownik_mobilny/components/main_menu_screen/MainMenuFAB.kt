@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.getFileNameFromUri
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.unZip
@@ -107,7 +108,12 @@ fun MainMenuFAB(
         FloatingActionButtonMenuItem(
             onClick = { onExpandedChange(false) },
             icon = { Icon(Icons.Filled.Create, contentDescription = null) },
-            text = { Text(text = "Create New", textDecoration = TextDecoration.LineThrough) },
+            text = {
+                Text(
+                    text = "Create New",
+                    textDecoration = TextDecoration.LineThrough,
+                    fontFamily = googleSansFlex
+                ) },
             contentColor = whitish,
             containerColor = lighterGray
         )
@@ -116,7 +122,12 @@ fun MainMenuFAB(
         FloatingActionButtonMenuItem(
             onClick = { onExpandedChange(false) },
             icon = { Icon(painter = painterResource(R.drawable.github_mark_white), contentDescription = null) },
-            text = { Text(text = "From Github", textDecoration = TextDecoration.LineThrough) },
+            text = {
+                Text(
+                    text = "From Github",
+                    textDecoration = TextDecoration.LineThrough,
+                    fontFamily = googleSansFlex
+                ) },
             contentColor = whitish,
             containerColor = lighterGray
         )
@@ -132,7 +143,11 @@ fun MainMenuFAB(
                     contentDescription = null,
                 )
             },
-            text = { Text(text = "Import Local") },
+            text = {
+                Text(
+                    text = "Import Local",
+                    fontFamily = googleSansFlex
+                ) },
             contentColor = whitish,
             containerColor = lighterGray
         )

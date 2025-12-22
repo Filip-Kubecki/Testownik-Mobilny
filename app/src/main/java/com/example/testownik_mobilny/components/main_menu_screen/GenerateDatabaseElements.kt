@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.darkGray
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.negativeRed
@@ -117,7 +118,7 @@ fun DatabaseCard(
                     text = name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = jetBrainsMonoFontFamily
+                    fontFamily = googleSansFlex
                 )
                 Text(
                     text = "Questions: $questionCount",
@@ -147,7 +148,7 @@ fun DatabaseCard(
                 ) {
                     // INFO - about this test
                     DropdownMenuItem(
-                        text = { Text("Info", fontSize = 16.sp) },
+                        text = { Text("Info", fontSize = 16.sp, fontFamily = googleSansFlex) },
                         onClick = { onInfo(); menuExpanded = false },
                         trailingIcon = {
                             Icon(
@@ -161,7 +162,7 @@ fun DatabaseCard(
 
                     // EDIT
                     DropdownMenuItem(
-                        text = { Text("Edit", fontSize = 16.sp) },
+                        text = { Text("Edit", fontSize = 16.sp, fontFamily = googleSansFlex) },
                         onClick = { onEdit(); menuExpanded = false },
                         trailingIcon = {
                             Icon(
@@ -175,7 +176,7 @@ fun DatabaseCard(
 
                     // REMOVE
                     DropdownMenuItem(
-                        text = { Text("Remove", fontSize = 16.sp, color = Color.Red) },
+                        text = { Text("Remove", fontSize = 16.sp, color = Color.Red, fontFamily = googleSansFlex) },
                         onClick = { onDelete(); menuExpanded = false },
                         trailingIcon = {
                             Icon(

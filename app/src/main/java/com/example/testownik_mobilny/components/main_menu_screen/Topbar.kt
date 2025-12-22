@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.components.RoundIconButton
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lighterGray
 import com.example.testownik_mobilny.view_models.MainActivityViewModel
@@ -38,7 +39,7 @@ fun TopBar(
             Text(
                 text = "Testownik",
                 fontSize = 26.sp,
-                fontFamily = jetBrainsMonoFontFamily,
+                fontFamily = googleSansFlex,
                 color = Color.White
             )
         },
