@@ -28,7 +28,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,19 +38,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.testownik_mobilny.components.RemoveDatabaseDialog
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.lightGray
-import com.example.testownik_mobilny.ui.theme.negativeRed
 import com.example.testownik_mobilny.ui.theme.removeRed
 import com.example.testownik_mobilny.ui.theme.whitish
-import com.google.android.material.color.MaterialColors
+import com.example.testownik_mobilny.view_models.MainActivityViewModel
 
 /**
  * Given list with [QuestionDatabase] and [androidx.navigation.NavController] generates list of buttons
@@ -59,6 +57,7 @@ import com.google.android.material.color.MaterialColors
  * with data of chosen database
  */
 fun LazyListScope.generateDatabaseElements(
+    mainViewModel: MainActivityViewModel,
     list: List<QuestionDatabase>,
     navigate: (Int) -> Unit
 ) {
@@ -76,10 +75,9 @@ fun LazyListScope.generateDatabaseElements(
             DatabaseCard(
                 name = data.name,
                 questionCount = data.numberOfQuestions,
-                onClick = { navigate(index) },
-                onInfo = { /* Future Info logic */ },
-                onEdit = { /* Future Edit logic */ },
-                onDelete = { /* Future Delete logic */ }
+                viewmodel = mainViewModel,
+                database = data,
+                onClick = { navigate(index) }
             )
         }
     }
@@ -90,12 +88,14 @@ fun LazyListScope.generateDatabaseElements(
 private fun DatabaseCard(
     name: String,
     questionCount: Int,
-    onClick: () -> Unit,
-    onInfo: () -> Unit,
-    onEdit: () -> Unit,
-    onDelete: () -> Unit
+    viewmodel: MainActivityViewModel,
+    database: QuestionDatabase,
+    onClick: () -> Unit
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
+
+//  Dialogs
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     OutlinedCard(
         onClick = onClick,
@@ -154,7 +154,7 @@ private fun DatabaseCard(
                     // INFO - about this test
                     DropdownMenuItem(
                         text = { Text("Info", fontSize = 16.sp, fontFamily = googleSansFlex) },
-                        onClick = { onInfo(); menuExpanded = false },
+                        onClick = { menuExpanded = false },
                         trailingIcon = {
                             Icon(
                                 Icons.Outlined.Info,
@@ -168,7 +168,7 @@ private fun DatabaseCard(
                     // EDIT
                     DropdownMenuItem(
                         text = { Text("Edit", fontSize = 16.sp, fontFamily = googleSansFlex) },
-                        onClick = { onEdit(); menuExpanded = false },
+                        onClick = { menuExpanded = false },
                         trailingIcon = {
                             Icon(
                                 Icons.Outlined.Edit,
@@ -188,7 +188,10 @@ private fun DatabaseCard(
                                 color = removeRed,
                                 fontFamily = googleSansFlex
                             ) },
-                        onClick = { onDelete(); menuExpanded = false },
+                        onClick = {
+                            showDeleteDialog = true
+                            menuExpanded = false
+                        },
                         trailingIcon = {
                             Icon(
                                 Icons.Outlined.Delete,
@@ -201,6 +204,15 @@ private fun DatabaseCard(
                     )
                 }
             }
+        }
+
+//      Dialogs composable
+        if (showDeleteDialog) {
+            RemoveDatabaseDialog(
+                database,
+                viewmodel,
+                {showDeleteDialog = false}
+            )
         }
     }
 }

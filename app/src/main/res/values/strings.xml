@@ -44,4 +44,5 @@
     </string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="RemoveDatabaseDialogMainText">Are you sure you want to remove \'%1$s\'? This will delete all questions and images permanently.</string>
 </resources>

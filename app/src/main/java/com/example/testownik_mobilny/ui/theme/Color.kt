@@ -17,7 +17,7 @@ val darkGray = Color(0xff18171c)
 val lighterDarkGray = Color(0xff242328)
 val lightGray = Color(0xffa9a8ae)
 val whitish = Color(0xffd9d9d9)
-val removeRed = Color(0xFFF10000)
+val removeRed = Color(0xFFFF0000)
 
 // Test specific
 val positiveGreen = Color(0xff558B2F)

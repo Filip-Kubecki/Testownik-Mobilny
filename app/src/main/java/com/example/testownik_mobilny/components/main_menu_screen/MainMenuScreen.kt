@@ -80,7 +80,11 @@ fun MainMenuScreen(
                 ImportedDatabaseContainer(
                     modifier = Modifier.weight(1f)
                 ) {
-                    generateDatabaseElements(mainViewModel.databaseList, navigate)
+                    generateDatabaseElements(
+                        mainViewModel,
+                        mainViewModel.databaseList,
+                        navigate
+                    )
                 }
             }
 

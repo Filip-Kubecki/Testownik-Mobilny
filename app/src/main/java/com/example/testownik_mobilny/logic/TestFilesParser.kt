@@ -52,10 +52,11 @@ class TestFilesParser(
 
 
        return QuestionDatabase(
-            uri.replace("[_-]".toRegex(), " "),
-            questions.size,
-            questions,
-            databaseDir
+            uri = uri,
+            name = uri.replace("[_-]".toRegex(), " "),
+            numberOfQuestions = questions.size,
+            questions = questions,
+            directory = databaseDir
         )
     }
 

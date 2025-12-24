@@ -3,10 +3,11 @@ package com.example.testownik_mobilny.logic
 import java.io.File
 
 data class QuestionDatabase(
+    val uri: String = "",
     val name: String,
     val numberOfQuestions: Int,
     val questions: List<Question>,
-    val directory: File?
+    val directory: File?,
 ){
     override fun toString(): String {
         return "Name: $name, number of questions: $numberOfQuestions"
