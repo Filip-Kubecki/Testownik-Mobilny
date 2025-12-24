@@ -29,13 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.testownik_mobilny.removeImgTag
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import java.io.File
@@ -87,7 +90,7 @@ fun QuestionContent(
                     {viewModel.changeContentImageVisibility()},
                     modifier = Modifier
                         .align(Alignment.End)
-                        .background(lighterGray)
+                        .background(lighterDarkGray)
                         .size(width = 40.dp, height = 32.dp)
                 ) {
                     Icon(
@@ -101,10 +104,17 @@ fun QuestionContent(
                 }
             }
         }else{
+            val questionText = viewModel.currentQuestion.question.replace(
+                "${viewModel.currentQuestion.id}.", " "
+            ).trimStart()
             Text(
-                "${viewModel.currentQuestion.id}. ${viewModel.currentQuestion.question}",
+                "${viewModel.currentQuestion.id}. $questionText",
+                style = TextStyle(
+                    lineBreak = LineBreak.Paragraph,
+                    hyphens = Hyphens.Auto
+                ),
                 fontSize = 18.sp,
-                fontFamily = jetBrainsMonoFontFamily,
+                fontFamily = googleSansFlex,
                 textAlign = TextAlign.Justify,
             )
             Spacer(modifier = Modifier.height(12.dp))

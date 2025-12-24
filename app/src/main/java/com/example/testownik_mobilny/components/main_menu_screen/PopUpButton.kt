@@ -28,7 +28,7 @@ import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.lightGray
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 
 /**
  * Button that pops up it's content on press
@@ -72,7 +72,7 @@ fun PopUpButton(
     ) {
         Box(
             modifier = Modifier
-                .background(lighterGray, shape = CircleShape)
+                .background(lighterDarkGray, shape = CircleShape)
                 .align(Alignment.BottomEnd)
         ) {
             RoundIconButton(

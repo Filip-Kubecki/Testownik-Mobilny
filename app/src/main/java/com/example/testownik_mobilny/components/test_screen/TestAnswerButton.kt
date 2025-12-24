@@ -38,8 +38,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.removeImgTag
 import com.example.testownik_mobilny.ui.theme.debugOrange
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 import com.example.testownik_mobilny.ui.theme.negativeRed
 import com.example.testownik_mobilny.ui.theme.neutralBlue
 import com.example.testownik_mobilny.ui.theme.positiveGreen
@@ -61,20 +61,20 @@ fun TestAnswerButton(
     debugMode: Boolean = false
 ){
     val toggled = viewModel.toggledButtons[id]
-    var containerColor = when(toggled){
+    val containerColor = when(toggled){
         ToggleState.TOGGLED -> neutralBlue
         ToggleState.CORRECT -> positiveGreen
         ToggleState.WRONG -> negativeRed
         ToggleState.UNMARKED -> undecidedYellow
-        else -> {lighterGray}
+        else -> {lighterDarkGray}
     }
     var size by remember { mutableStateOf(IntSize.Zero) }
     var focusable by remember { mutableStateOf(true) }
-    var roundness = 15
+    val roundness = 15
 
 //    Check if there is [img] tag in the answer
-    var regex = Regex("\\[img].*?\\[/img]", RegexOption.DOT_MATCHES_ALL)
-    var containsImg = answer.contains(regex)
+    val regex = Regex("\\[img].*?\\[/img]", RegexOption.DOT_MATCHES_ALL)
+    val containsImg = answer.contains(regex)
 
     Button(
         onClick = {
@@ -110,15 +110,15 @@ fun TestAnswerButton(
             if(!containsImg){
                 Text(
                     answer,
-                    fontFamily = jetBrainsMonoFontFamily,
+                    fontFamily = googleSansFlex,
                     fontSize = 16.sp,
                     lineHeight = 30.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxSize()
                 )
             }else{
-                var src = regex.find(answer)
-                var img = removeImgTag(src?.groupValues?.get(0).toString())
+                val src = regex.find(answer)
+                val img = removeImgTag(src?.groupValues?.get(0).toString())
                 val file = File(directory, img)
                 Log.d("SELF", "Source: $file")
                 Image(

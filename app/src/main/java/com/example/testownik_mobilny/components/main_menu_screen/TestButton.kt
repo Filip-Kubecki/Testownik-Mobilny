@@ -25,9 +25,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.R
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.lightGray
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 import com.example.testownik_mobilny.ui.theme.whitish
 
 /**
@@ -50,7 +50,7 @@ fun TestButton(
         ),
         modifier = modifier
             .background(
-                color = lighterGray,
+                color = lighterDarkGray,
                 shape = RoundedCornerShape(12.dp)
             )
             .fillMaxWidth(0.94f)
@@ -72,7 +72,7 @@ fun TestButton(
                 Text(
                     testName,
                     color = whitish,
-                    fontFamily = jetBrainsMonoFontFamily,
+                    fontFamily = googleSansFlex,
                     fontSize = 24.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -83,7 +83,7 @@ fun TestButton(
                 Text(
                     "$questionCount pytań",
                     color = lightGray,
-                    fontFamily = jetBrainsMonoFontFamily,
+                    fontFamily = googleSansFlex,
                     fontSize = 16.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

@@ -26,7 +26,6 @@ import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 
-
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -41,7 +40,7 @@ fun TestScreen(
     LaunchedEffect(Unit){
         localViewModel.init(database)
     }
-//        Initialize test logic here
+//  Initialize test logic here
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +58,7 @@ fun TestScreen(
                 )
                 TestInfoBar(localViewModel)
 
-//                    Question box
+//              Question box
                 Box(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
@@ -75,7 +74,6 @@ fun TestScreen(
                         database.directory
                     )
                 }
-
 //                    Answers
 //              TODO: scale content dynamically
                 Column(

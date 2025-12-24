@@ -1,6 +1,7 @@
 package com.example.testownik_mobilny.components.test_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,8 +21,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.components.RoundIconButton
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 
 /**
  * Contains test database name, return button and option button
@@ -37,7 +38,7 @@ fun TestTopBar(
         modifier = modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(lighterGray)
+            .background(lighterDarkGray)
             .padding(bottom = 0.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -52,11 +53,18 @@ fun TestTopBar(
             text = testName,
             textAlign = TextAlign.Center,
             fontSize = 18.sp,
-            fontFamily = jetBrainsMonoFontFamily,
+            fontFamily = googleSansFlex,
             color = Color.White,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.fillMaxWidth(0.5f)
+            maxLines = 1,
+            modifier = Modifier
+                .fillMaxWidth(0.7f)
+                .basicMarquee(
+                    iterations = Int.MAX_VALUE,
+                    initialDelayMillis = 10000,
+                    repeatDelayMillis = 5000,
+                    velocity = 30.dp
+                ),
+            overflow = TextOverflow.Ellipsis
         )
 
         RoundIconButton(

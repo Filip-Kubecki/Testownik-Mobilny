@@ -12,15 +12,16 @@ import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.R
 
 // Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+val Typography: Typography
+    get() = Typography(
+        bodyLarge = TextStyle(
+            fontFamily = googleSansFlex,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            letterSpacing = 0.5.sp
+        )
     )
-)
 
 val jetBrainsMonoFontFamily = FontFamily(
     Font(R.font.jetbrainsmono_regular),

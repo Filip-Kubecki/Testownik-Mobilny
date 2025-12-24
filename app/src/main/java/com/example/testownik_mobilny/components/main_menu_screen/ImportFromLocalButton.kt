@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.testownik_mobilny.getFileNameFromUri
 import com.example.testownik_mobilny.ui.theme.darkGray
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.unZip
 import com.example.testownik_mobilny.view_models.MainActivityViewModel
@@ -52,7 +52,7 @@ fun ImportFromLocalButton(
             fileExplorerLauncher.launch("*/*")
         },
         colors = IconButtonDefaults.iconButtonColors(
-            containerColor = lighterGray,
+            containerColor = lighterDarkGray,
             contentColor = whitish,
             disabledContentColor = darkGray,
             disabledContainerColor = darkGray

@@ -50,7 +50,13 @@ class TestFilesParser(
         }
         Log.d("SELF", "PARSED")
 
-        return QuestionDatabase(uri, questions.size, questions, databaseDir)
+
+       return QuestionDatabase(
+            uri.replace("[_-]".toRegex(), " "),
+            questions.size,
+            questions,
+            databaseDir
+        )
     }
 
     private fun findDatabaseDirectory(directory: File?): File? {

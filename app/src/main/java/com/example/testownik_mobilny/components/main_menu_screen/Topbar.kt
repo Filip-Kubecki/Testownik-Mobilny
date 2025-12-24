@@ -18,8 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.components.RoundIconButton
 import com.example.testownik_mobilny.ui.theme.googleSansFlex
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 import com.example.testownik_mobilny.view_models.MainActivityViewModel
 
 /**
@@ -64,7 +63,7 @@ fun TopBar(
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = lighterGray
+            containerColor = lighterDarkGray
         ),
         modifier = modifier
     )

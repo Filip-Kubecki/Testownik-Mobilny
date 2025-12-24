@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testownik_mobilny.ui.theme.lighterGray
+import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 
 @Composable
 fun FinishedTestOverlay(
@@ -37,7 +37,7 @@ fun FinishedTestOverlay(
             modifier = Modifier
                 .fillMaxHeight(0.25f)
                 .fillMaxWidth(0.85f)
-                .background(lighterGray, RoundedCornerShape(25.dp))
+                .background(lighterDarkGray, RoundedCornerShape(25.dp))
         ) {
             Text(
                 "Nauczyłeś się wszystkich pytań!",

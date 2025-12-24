@@ -28,6 +28,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,15 +41,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.googleSansFlex
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.negativeRed
+import com.example.testownik_mobilny.ui.theme.removeRed
 import com.example.testownik_mobilny.ui.theme.whitish
+import com.google.android.material.color.MaterialColors
 
 /**
  * Given list with [QuestionDatabase] and [androidx.navigation.NavController] generates list of buttons
@@ -84,7 +87,7 @@ fun LazyListScope.generateDatabaseElements(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatabaseCard(
+private fun DatabaseCard(
     name: String,
     questionCount: Int,
     onClick: () -> Unit,
@@ -118,13 +121,15 @@ fun DatabaseCard(
                     text = name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = googleSansFlex
+                    fontFamily = googleSansFlex,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = "Questions: $questionCount",
                     fontSize = 14.sp,
                     color = lightGray,
-                    fontFamily = jetBrainsMonoFontFamily
+                    fontFamily = googleSansFlex
                 )
             }
 
@@ -176,13 +181,19 @@ fun DatabaseCard(
 
                     // REMOVE
                     DropdownMenuItem(
-                        text = { Text("Remove", fontSize = 16.sp, color = Color.Red, fontFamily = googleSansFlex) },
+                        text = {
+                            Text(
+                                "Remove",
+                                fontSize = 16.sp,
+                                color = removeRed,
+                                fontFamily = googleSansFlex
+                            ) },
                         onClick = { onDelete(); menuExpanded = false },
                         trailingIcon = {
                             Icon(
                                 Icons.Outlined.Delete,
                                 contentDescription = null,
-                                tint = Color.Red,
+                                tint = removeRed,
                                 modifier = Modifier.size(20.dp)
                             )
                         },

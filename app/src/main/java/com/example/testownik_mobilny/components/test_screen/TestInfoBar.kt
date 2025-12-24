@@ -20,12 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testownik_mobilny.view_models.TestScreenViewModel
-import com.example.testownik_mobilny.ui.theme.jetBrainsMonoFontFamily
+import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.whitish
+import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import kotlinx.coroutines.delay
 import java.util.Locale
 
@@ -45,7 +46,7 @@ fun TestInfoBar(
     var timeElapsed by remember { mutableIntStateOf(0) }
 
     val localTextStyle = TextStyle(
-        fontFamily = jetBrainsMonoFontFamily,
+        fontFamily = googleSansFlex,
         fontSize = 16.sp,
         color = whitish
     )
@@ -79,7 +80,13 @@ fun TestInfoBar(
             )
             Text(
                 formatTime(timeElapsed),
-                style = localTextStyle
+                style = TextStyle(
+                    fontFeatureSettings = "tnum"
+                ),
+                fontFamily = googleSansFlex,
+                color = whitish,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
             )
         }
         Spacer(modifier = Modifier.height(2.dp).fillMaxWidth(0.96f).background(lightGray))
