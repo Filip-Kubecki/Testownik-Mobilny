@@ -1,19 +1,15 @@
 package com.example.testownik_mobilny.components.test_screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -27,28 +23,15 @@ import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 /**
  * Contains test database name, return button and option button
  */
-// Change to material 3 top bar
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TestTopBar(
     testName: String,
     goBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .background(lighterDarkGray)
-            .padding(bottom = 0.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RoundIconButton(
-            {},
-            icon = Icons.Filled.Menu,
-            iconDescription = "Side menu"
-        )
-
+    CenterAlignedTopAppBar(
+    title = {
         Text(
             text = testName,
             textAlign = TextAlign.Center,
@@ -66,11 +49,23 @@ fun TestTopBar(
                 ),
             overflow = TextOverflow.Ellipsis
         )
-
+    },
+    navigationIcon = {
         RoundIconButton(
             onClick = goBack,
-            modifier = Modifier.size(80.dp, 80.dp),
             icon = Icons.Filled.Close,
         )
-    }
+    },
+    actions = {
+        RoundIconButton(
+            {}, // TODO: add this functionality - additional uses of test screen
+            icon = Icons.Filled.Menu,
+            iconDescription = "Side menu"
+        )
+    },
+    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = lighterDarkGray
+    ),
+    modifier = modifier
+    )
 }

@@ -34,7 +34,7 @@ fun RoundIconButton(
         Icon(
             icon,
             contentDescription = iconDescription,
-            modifier = Modifier.size(34.dp).rotate(rotation)
+            modifier = Modifier.size(42.dp).rotate(rotation)
         )
     }
 }

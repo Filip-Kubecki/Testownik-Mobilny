@@ -25,7 +25,6 @@ import com.example.testownik_mobilny.view_models.MainActivityViewModel
  * Contains app title, icon and settings button
  */
 
-// TODO: change to material 3 top bar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(

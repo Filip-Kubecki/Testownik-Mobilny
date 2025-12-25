@@ -75,7 +75,6 @@ class MainActivity : ComponentActivity() {
                         ){ bse ->
                             val databaseIndex = bse.arguments?.getInt("databaseIndex") ?: 0
                             TestScreen(
-                                innerPadding,
                                 mainViewModel.databaseList.elementAt(databaseIndex),
                                 navigate = {
                                     navController.popBackStack()

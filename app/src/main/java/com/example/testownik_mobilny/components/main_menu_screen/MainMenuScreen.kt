@@ -64,6 +64,7 @@ fun MainMenuScreen(
                 mainViewModel
             )
         },
+//        TODO: add checking for wrong zip file in import (right now it just creates empty test database that crashes app)
         floatingActionButton = {
             MainMenuFAB(
                 viewModel = mainViewModel,

@@ -69,23 +69,23 @@ class TestScreenViewModel: ViewModel() {
 //    Logic
     fun init(database: QuestionDatabase){
 //        Pass database from outside
-    questions = database.questions
+        questions = database.questions
 
-    Log.d("SELF", "Test Initialization ${database.name}")
+        Log.d("SELF", "Test Initialization ${database.name}")
 //        Test info initialization
-    testInformation.name = database.name
-    testInformation.numberOfQuestions = database.numberOfQuestions
-    repeat(
-        database.numberOfQuestions
-    ) { it ->
-        testInformation.unvisitedQuestions.add(it, it)
-    }
+        testInformation.name = database.name
+        testInformation.numberOfQuestions = database.numberOfQuestions
+        repeat(
+            database.numberOfQuestions
+        ) {
+            testInformation.unvisitedQuestions.add(it, it)
+        }
 //        Init current question with random value
-    nextRandomQuestion()
+        nextRandomQuestion()
 
 //        Init button states
-    initButtonStates()
-}
+        initButtonStates()
+    }
 
     fun initButtonStates(){
         toggledButtons.clear()

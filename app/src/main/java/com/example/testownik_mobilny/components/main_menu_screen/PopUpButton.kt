@@ -33,8 +33,7 @@ import com.example.testownik_mobilny.ui.theme.lighterDarkGray
 /**
  * Button that pops up it's content on press
  */
-
-// TODO: change it to material 3 fab
+// Archival composable - TODO: remove in the future
 @Composable
 fun PopUpButton(
     modifier: Modifier = Modifier,

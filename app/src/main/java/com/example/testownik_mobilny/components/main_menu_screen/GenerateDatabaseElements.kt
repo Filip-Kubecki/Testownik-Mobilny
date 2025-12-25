@@ -70,7 +70,7 @@ fun LazyListScope.generateDatabaseElements(
             enter = slideInHorizontally(
                 animationSpec = tween(250 * index + 100),
                 initialOffsetX = { fullWidth -> -fullWidth }
-            ) + fadeIn(animationSpec = tween(750 * index + 100))
+            ) + fadeIn(animationSpec = tween(500 * index + 100))
         ) {
             DatabaseCard(
                 name = data.name,
