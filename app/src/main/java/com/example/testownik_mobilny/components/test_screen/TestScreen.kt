@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
+import kotlinx.coroutines.delay
 
 @SuppressLint("ViewModelConstructorInComposable")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -37,6 +38,7 @@ fun TestScreen(
 
     LaunchedEffect(Unit){
         localViewModel.init(database)
+        delay(500)
     }
 
     Scaffold(
@@ -92,12 +94,21 @@ fun TestScreen(
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState()),
                 ){
-                    localViewModel.currentQuestion.answers.forEachIndexed { index, answer ->
+                    localViewModel.shuffledAnswerIndices.forEachIndexed { visualIndex, originalIndex ->
+                        val rawAnswer = localViewModel.currentQuestion.answers[originalIndex]
+
+//                        val cleanedAnswer = rawAnswer
+//                            .replace(Regex("^[a-zA-Z0-9][).-]\\s*"), "")
+//                            .trim()
+
+//                        val autoLabel = ('a' + visualIndex).toString() + ") "
+
                         TestAnswerButton(
-                            answer,
-                            index,
-                            localViewModel,
-                            database.directory,
+//                            answer = autoLabel + cleanedAnswer, -- better way TODO: change to this in final version
+                            answer = rawAnswer, // better for debug
+                            id = originalIndex,
+                            viewModel = localViewModel,
+                            directory = database.directory,
                             debugMode = true
                         )
                         Spacer(modifier = Modifier.height(12.dp))

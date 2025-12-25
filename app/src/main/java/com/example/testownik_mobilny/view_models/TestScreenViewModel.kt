@@ -7,8 +7,16 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.testownik_mobilny.logic.TestInfo
 import com.example.testownik_mobilny.logic.Question
 import com.example.testownik_mobilny.logic.QuestionDatabase
+import com.example.testownik_mobilny.logic.TestInfoManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import kotlin.random.Random
 
 /**
@@ -24,9 +32,9 @@ import kotlin.random.Random
  */
 class TestScreenViewModel: ViewModel() {
 //    Values used for whole database
-    var questions: List<Question> = mutableStateListOf<Question>()
+    var questions: List<Question> = mutableStateListOf()
         private set
-    var testInformation: TestInfo = TestInfo()
+    var testInformation by mutableStateOf(TestInfo())
         private set
 //    Values used for each question
     var toggledButtons = mutableStateListOf<ToggleState>()
@@ -34,11 +42,10 @@ class TestScreenViewModel: ViewModel() {
     var currentQuestion by mutableStateOf(Question(-999, "", listOf(), listOf()))
         private set
 
-//    Two states 0 for fade in, 1 for fade out
-//    var screenState by mutableStateOf(0)
-//        private set
-
     var questionContentImageVisibility by mutableStateOf( true )
+        private set
+
+    var shuffledAnswerIndices by mutableStateOf(listOf<Int>())
         private set
 
     var finishedScreenState by mutableStateOf(false)
@@ -66,25 +73,40 @@ class TestScreenViewModel: ViewModel() {
  * If both the *unvisitedQuestions* and *answeredQuestions* lists are empty,
  * it means all questions have been memorized and the test ends with the finish screen.
  */
-//    Logic
+    private lateinit var databaseDirectory: File
+
+    var timeElapsed by mutableIntStateOf(0)
+
+    private var lastQuestionIndex: Int = -999
+
+
+//    LOGIC ----------------------------------------
     fun init(database: QuestionDatabase){
-//        Pass database from outside
+        databaseDirectory = database.directory!!
         questions = database.questions
 
-        Log.d("SELF", "Test Initialization ${database.name}")
-//        Test info initialization
-        testInformation.name = database.name
-        testInformation.numberOfQuestions = database.numberOfQuestions
-        repeat(
-            database.numberOfQuestions
-        ) {
-            testInformation.unvisitedQuestions.add(it, it)
-        }
-//        Init current question with random value
-        nextRandomQuestion()
+        viewModelScope.launch(Dispatchers.IO) {
+            val savedProgress = TestInfoManager.loadTestInfo(databaseDirectory)
 
-//        Init button states
-        initButtonStates()
+            withContext(Dispatchers.Main) {
+                if (savedProgress != null) {
+                    testInformation = savedProgress
+                } else {
+                    val freshInfo = TestInfo(
+                        name = database.name,
+                        numberOfQuestions = database.numberOfQuestions
+                    )
+                    repeat(database.numberOfQuestions) { freshInfo.unvisitedQuestions.add(it) }
+                    testInformation = freshInfo
+                }
+
+                timeElapsed = testInformation.timeSpent
+                startTimer()
+
+                nextRandomQuestion()
+                initButtonStates()
+            }
+        }
     }
 
     fun initButtonStates(){
@@ -103,22 +125,38 @@ class TestScreenViewModel: ViewModel() {
     }
 
     fun nextRandomQuestion(){
-        currentQuestionIndex = (
-        if (Random.nextInt(100) > 15 && testInformation.answeredQuestions.isNotEmpty()) {
-    //            15% chance to get question from answeredQuestions
-            testInformation.answeredQuestions.random()
-        } else if(testInformation.unvisitedQuestions.isNotEmpty()){
-    //            85% chance to get question from unvisitedQuestions
-            testInformation.unvisitedQuestions.random()
-        } else if(testInformation.answeredQuestions.isNotEmpty()) {
-//            When there is no questions in unvisitedQuestions
-            testInformation.answeredQuestions.random()
-        } else {
+        // Check if the test is finished before picking a question
+        if (testInformation.unvisitedQuestions.isEmpty() && testInformation.answeredQuestions.isEmpty()) {
+            testIsDone()
+            return
+        }
 
-        }) as Int
+        val unvisitedPool = testInformation.unvisitedQuestions.filter { it != lastQuestionIndex }
+        val answeredPool = testInformation.answeredQuestions.filter { it != lastQuestionIndex }
 
+        val nextIndex = when {
+            // 15% chance for Answered (if pool is not empty)
+            Random.nextInt(100) > 85 && answeredPool.isNotEmpty() -> answeredPool.random()
+
+            // 85% chance for Unvisited (if pool is not empty)
+            unvisitedPool.isNotEmpty() -> unvisitedPool.random()
+
+            // Emergency Fallback: If filtered pools are empty, use the unfiltered ones
+            testInformation.unvisitedQuestions.isNotEmpty() -> testInformation.unvisitedQuestions.random()
+            else -> testInformation.answeredQuestions.random()
+        }
+
+        lastQuestionIndex = nextIndex
+        currentQuestionIndex = nextIndex
         currentQuestion = questions[currentQuestionIndex]
+
+        shuffleAnswers()
+
         Log.d("SELF", "Next question: ${currentQuestion.id}. ${currentQuestion.question}")
+    }
+
+    private fun shuffleAnswers() {
+        shuffledAnswerIndices = currentQuestion.answers.indices.shuffled()
     }
 
     fun checkAnswers(){
@@ -184,6 +222,9 @@ class TestScreenViewModel: ViewModel() {
         mistakeCounter = 0
         nextRandomQuestion()
         initButtonStates()
+
+//        Saves testInfo data to json file
+        saveProgress()
     }
 
     fun resetContentImageVisibility() {
@@ -193,9 +234,27 @@ class TestScreenViewModel: ViewModel() {
     fun changeContentImageVisibility(){
         questionContentImageVisibility = !questionContentImageVisibility
     }
+
     private fun testIsDone(){
         finishedScreenState = true
+        saveProgress()
+        Log.d("SELF", "Test Completed Successfully")
+    }
 
+    private fun saveProgress() {
+        viewModelScope.launch(Dispatchers.IO) {
+            TestInfoManager.saveTestInfo(databaseDirectory, testInformation)
+        }
+    }
+
+    private fun startTimer() {
+        viewModelScope.launch {
+            while (true) {
+                delay(1000L)
+                timeElapsed++
+                testInformation.timeSpent = timeElapsed
+            }
+        }
     }
 }
 
@@ -221,28 +280,4 @@ enum class ToggleState{
     UNMARKED,
     /** unselected question that wasn't correct - GRAY */
     DISABLED
-}
-
-/**
- * Holds information about test database and about progress in learning
- * @param name name of the current test database
- * @param numberOfQuestions number of all questions (answered, memorized and unvisited)
- * @param memorizedQuestions indexes of memorized questions (memorized question is one that will not appear again in test)
- * @param answeredQuestions indexes of questions that have been answered at least once
- * @param unvisitedQuestions indexes of questions that weren't answered since first test run
- * @param timeSpent The duration of time that has passed since the test started.
- * This value increases only while the test is actively running, and pauses when the test is inactive.
- */
-data class TestInfo(
-    var name: String = "",
-    var numberOfQuestions: Int = 0,
-    var memorizedQuestions: MutableList<Int> = mutableListOf(),
-    var answeredQuestions: MutableList<Int> = mutableListOf(),
-    var unvisitedQuestions: MutableList<Int> = mutableListOf(),
-    var timeSpent: Int = 0,
-){
-    override fun toString(): String {
-        return "Database: $name, Fully memorized questions: ${memorizedQuestions.size} \n" +
-                "Questions answered at least once in current run: ${answeredQuestions.size}"
-    }
 }

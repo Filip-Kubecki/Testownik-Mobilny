@@ -12,11 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -27,7 +22,6 @@ import com.example.testownik_mobilny.ui.theme.googleSansFlex
 import com.example.testownik_mobilny.ui.theme.lightGray
 import com.example.testownik_mobilny.ui.theme.whitish
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
-import kotlinx.coroutines.delay
 import java.util.Locale
 
 /**
@@ -43,21 +37,11 @@ import java.util.Locale
 fun TestInfoBar(
     viewModel: TestScreenViewModel
 ){
-    var timeElapsed by remember { mutableIntStateOf(0) }
-
     val localTextStyle = TextStyle(
         fontFamily = googleSansFlex,
         fontSize = 16.sp,
         color = whitish
     )
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1000L)
-            timeElapsed++
-            viewModel.testInformation.timeSpent = timeElapsed
-        }
-    }
 
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
@@ -73,13 +57,13 @@ fun TestInfoBar(
             modifier = Modifier.fillMaxWidth(0.88f)
         ) {viewModel.testInformation.memorizedQuestions
             Text(
-                "Liczba pytań: ${viewModel.testInformation.memorizedQuestions.count()}/" +
-                        "${viewModel.testInformation.answeredQuestions.count()}/" +
+                "Liczba pytań: ${viewModel.testInformation.memorizedQuestions.size}/" +
+                        "${viewModel.testInformation.answeredQuestions.size}/" +
                         "${viewModel.testInformation.numberOfQuestions}",
                 style = localTextStyle
             )
             Text(
-                formatTime(timeElapsed),
+                formatTime(viewModel.timeElapsed),
                 style = TextStyle(
                     fontFeatureSettings = "tnum"
                 ),
