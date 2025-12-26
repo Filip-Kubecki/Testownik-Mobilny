@@ -35,6 +35,12 @@ fun MainMenuScreen(
     navigate: (Int) -> Unit,
     settingsNav: () -> Unit
 ){
+//    TODO: feature from Dawid - add searching for specific text
+//          in all databases and show in which databases does this
+//          text occurs
+//    TODO: feature from Kasia - add repetition of the material and due-day
+//          reminders to app. Maybe repetition in the flash cards fashion
+
     val context = LocalContext.current
     var fabMenuExpanded by rememberSaveable { mutableStateOf(false) }
     val listState = rememberLazyListState()

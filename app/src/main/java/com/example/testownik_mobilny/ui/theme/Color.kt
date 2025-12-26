@@ -15,6 +15,7 @@ val Pink40 = Color(0xFF7D5260)
 // General
 val darkGray = Color(0xff18171c)
 val lighterDarkGray = Color(0xff242328)
+val mediumGray = Color(0xFF504E59)
 val lightGray = Color(0xffa9a8ae)
 val whitish = Color(0xffd9d9d9)
 val removeRed = Color(0xFFFF0000)

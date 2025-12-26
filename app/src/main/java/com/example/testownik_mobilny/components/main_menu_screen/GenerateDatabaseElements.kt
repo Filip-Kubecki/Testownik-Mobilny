@@ -4,10 +4,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -26,8 +26,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.components.RemoveDatabaseDialog
+import com.example.testownik_mobilny.components.TestInfoSheet
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.ui.theme.darkGray
 import com.example.testownik_mobilny.ui.theme.googleSansFlex
@@ -96,6 +100,7 @@ private fun DatabaseCard(
 
 //  Dialogs
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showInfoSheet by remember { mutableStateOf(false) }
 
     OutlinedCard(
         onClick = onClick,
@@ -133,7 +138,7 @@ private fun DatabaseCard(
                 )
             }
 
-//            Dropdown menu
+//            DROPDOWN MENU =====================
             Box {
                 IconButton(onClick = { menuExpanded = true }) {
                     Icon(
@@ -149,34 +154,69 @@ private fun DatabaseCard(
                     onDismissRequest = { menuExpanded = false },
                     shape = RoundedCornerShape(20.dp),
                     containerColor = darkGray,
-                    modifier = Modifier.width(140.dp)
+                    modifier = Modifier
+                        .width(180.dp)
+                        .border(
+                            width = 1.dp,
+                            color = lightGray.copy(alpha = 0.2f),
+                            shape = RoundedCornerShape(20.dp)
+                        )
                 ) {
-                    // INFO - about this test
+                    // INFO
                     DropdownMenuItem(
-                        text = { Text("Info", fontSize = 16.sp, fontFamily = googleSansFlex) },
-                        onClick = { menuExpanded = false },
-                        trailingIcon = {
+                        text = { Text("Info", fontSize = 15.sp, fontFamily = googleSansFlex) },
+                        onClick = {
+                            showInfoSheet = true
+                            menuExpanded = false
+                        },
+                        leadingIcon = {
                             Icon(
                                 Icons.Outlined.Info,
                                 contentDescription = null,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                        },
-                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
+                        }
                     )
 
                     // EDIT
                     DropdownMenuItem(
-                        text = { Text("Edit", fontSize = 16.sp, fontFamily = googleSansFlex) },
-                        onClick = { menuExpanded = false },
-                        trailingIcon = {
+                        enabled = false,
+                        text = {
+                            Column {
+                                Text(
+                                    "Edit",
+                                    fontSize = 15.sp,
+                                    fontFamily = googleSansFlex
+                                )
+                                Text(
+                                    "Coming Soon",
+                                    fontSize = 11.sp,
+                                    fontFamily = googleSansFlex,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                                )
+                            }
+                        },
+                        onClick = { /* TODO: add edit screen*/ },
+                        leadingIcon = {
                             Icon(
                                 Icons.Outlined.Edit,
                                 contentDescription = null,
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.size(20.dp),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
                             )
                         },
-                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
+                        colors = MenuDefaults.itemColors(
+                            disabledTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
+                            disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                            disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)
+                        )
+                    )
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        thickness = 1.dp,
+                        color = lightGray.copy(alpha = 0.1f)
                     )
 
                     // REMOVE
@@ -184,34 +224,43 @@ private fun DatabaseCard(
                         text = {
                             Text(
                                 "Remove",
-                                fontSize = 16.sp,
+                                fontSize = 15.sp,
                                 color = removeRed,
-                                fontFamily = googleSansFlex
-                            ) },
+                                fontFamily = googleSansFlex,
+                                fontWeight = FontWeight.Medium
+                            )
+                        },
                         onClick = {
                             showDeleteDialog = true
                             menuExpanded = false
                         },
-                        trailingIcon = {
+                        leadingIcon = {
                             Icon(
                                 Icons.Outlined.Delete,
                                 contentDescription = null,
                                 tint = removeRed,
                                 modifier = Modifier.size(20.dp)
                             )
-                        },
-                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp)
+                        }
                     )
                 }
             }
         }
 
-//      Dialogs composable
+//      DIALOGS AND SHEETS ===============================
         if (showDeleteDialog) {
             RemoveDatabaseDialog(
                 database,
                 viewmodel,
                 {showDeleteDialog = false}
+            )
+        }
+
+        if (showInfoSheet) {
+            TestInfoSheet(
+                database = database,
+                onDismiss = { showInfoSheet = false },
+                onStartTest = onClick
             )
         }
     }

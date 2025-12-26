@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -31,8 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.example.testownik_mobilny.R
 import com.example.testownik_mobilny.getFileNameFromUri
@@ -92,7 +94,7 @@ fun MainMenuFAB(
 
                 Icon(
                     painter = rememberVectorPainter(imageVector),
-                    contentDescription = "placeholder", // TODO: placeholder
+                    contentDescription = "placeholder",
                     tint = whitish,
                     modifier = Modifier
                         .requiredSize(42.dp)
@@ -104,31 +106,63 @@ fun MainMenuFAB(
             }
         }
     ) {
-        // TODO: user will have option to create test from app
         FloatingActionButtonMenuItem(
-            onClick = { onExpandedChange(false) },
-            icon = { Icon(Icons.Filled.Create, contentDescription = null) },
+            onClick = {
+                // TODO: Add this action
+//                onExpandedChange(false)
+            },
+            icon = {
+                Icon(
+                    imageVector = Icons.Filled.Create,
+                    contentDescription = null,
+                    tint = whitish.copy(alpha = 0.38f)
+                )
+            },
             text = {
-                Text(
-                    text = "Create New",
-                    textDecoration = TextDecoration.LineThrough,
-                    fontFamily = googleSansFlex
-                ) },
-            contentColor = whitish,
+                Column(verticalArrangement = Arrangement.spacedBy((-4).dp)) {
+                    Text(
+                        text = "Create New",
+                        fontFamily = googleSansFlex,
+                        color = whitish.copy(alpha = 0.38f)
+                    )
+                    Text(
+                        text = "Coming Soon",
+                        fontFamily = googleSansFlex,
+                        fontSize = 10.sp,
+                        color = whitish.copy(alpha = 0.38f)
+                    )
+                }
+            },
             containerColor = lighterDarkGray
         )
 
-        // TODO: user will have option to download test database from Github repository
         FloatingActionButtonMenuItem(
-            onClick = { onExpandedChange(false) },
-            icon = { Icon(painter = painterResource(R.drawable.github_mark_white), contentDescription = null) },
+            onClick = {
+                // TODO: Add this action
+//                onExpandedChange(false)
+            },
+            icon = {
+                Icon(
+                    painter = painterResource(R.drawable.github_mark_white),
+                    contentDescription = null,
+                    tint = whitish.copy(alpha = 0.38f)
+                )
+            },
             text = {
-                Text(
-                    text = "From Github",
-                    textDecoration = TextDecoration.LineThrough,
-                    fontFamily = googleSansFlex
-                ) },
-            contentColor = whitish,
+                Column(verticalArrangement = Arrangement.spacedBy((-4).dp)) {
+                    Text(
+                        text = "From Github",
+                        fontFamily = googleSansFlex,
+                        color = whitish.copy(alpha = 0.38f)
+                    )
+                    Text(
+                        text = "Coming Soon",
+                        fontFamily = googleSansFlex,
+                        fontSize = 10.sp,
+                        color = whitish.copy(alpha = 0.38f)
+                    )
+                }
+            },
             containerColor = lighterDarkGray
         )
 
@@ -141,14 +175,16 @@ fun MainMenuFAB(
                 Icon(
                     Icons.Filled.FileDownload,
                     contentDescription = null,
+                    tint = whitish
                 )
             },
             text = {
                 Text(
                     text = "Import Local",
-                    fontFamily = googleSansFlex
-                ) },
-            contentColor = whitish,
+                    fontFamily = googleSansFlex,
+                    color = whitish
+                )
+            },
             containerColor = lighterDarkGray
         )
     }
