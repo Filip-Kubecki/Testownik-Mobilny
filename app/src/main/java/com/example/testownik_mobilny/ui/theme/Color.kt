@@ -19,6 +19,7 @@ val mediumGray = Color(0xFF504E59)
 val lightGray = Color(0xffa9a8ae)
 val whitish = Color(0xffd9d9d9)
 val removeRed = Color(0xFFFF0000)
+val winnerGold = Color(0xFFFFD700)
 
 // Test specific
 val positiveGreen = Color(0xff558B2F)

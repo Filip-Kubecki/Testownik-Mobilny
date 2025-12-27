@@ -126,7 +126,9 @@ fun TestScreen(
 
 
             if (localViewModel.finishedScreenState){
-                FinishedTestOverlay(navigate)
+                FinishedTestOverlay(
+                    navigate
+                )
             }
         }
     }

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "unused")
+
 package com.example.testownik_mobilny.components.main_menu_screen
 
 import androidx.compose.animation.core.animateFloatAsState
@@ -31,6 +33,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun MainMenuScreen(
     mainViewModel: MainActivityViewModel,
+    @Suppress("UNUSED_PARAMETER")
     dataStore: AppSettings,
     navigate: (Int) -> Unit,
     settingsNav: () -> Unit
@@ -76,7 +79,10 @@ fun MainMenuScreen(
                 viewModel = mainViewModel,
                 isVisible = fabVisible,
                 expanded = fabMenuExpanded,
-                onExpandedChange = { fabMenuExpanded = it }
+                onExpandedChange = {
+                    @Suppress("AssignedValueIsNeverRead")
+                    fabMenuExpanded = it
+                }
             )
         },
         modifier = Modifier.fillMaxSize()
@@ -104,7 +110,10 @@ fun MainMenuScreen(
                         .clickable(
                             interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
                             indication = null
-                        ) { fabMenuExpanded = false }
+                        ) {
+                            @Suppress("AssignedValueIsNeverRead")
+                            fabMenuExpanded = false
+                        }
                 )
             }
         }

@@ -42,7 +42,7 @@ fun ConfirmChoiceButton(
 
     IconButton(
         onClick = {
-            if (isToggled == false) {
+            if (!isToggled) {
                 isToggled = true
                 viewModel.checkAnswers()
             } else {
