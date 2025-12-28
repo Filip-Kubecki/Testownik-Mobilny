@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.testownik_mobilny.components.test_screen.formatTime
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.logic.TestInfo
@@ -48,7 +50,12 @@ import com.example.testownik_mobilny.ui.theme.mediumGray
 import com.example.testownik_mobilny.ui.theme.positiveGreen
 import com.example.testownik_mobilny.ui.theme.undecidedYellow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,6 +69,7 @@ fun TestInfoSheet(
 //          so it resets test data so you can start again
     var testInfo by remember { mutableStateOf<TestInfo?>(null) }
     var isLoading by remember { mutableStateOf(true) }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(database) {
         val loaded = withContext(Dispatchers.IO) {
@@ -136,7 +144,22 @@ fun TestInfoSheet(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Column(modifier = Modifier.padding(top = 4.dp)) {
+                        Text(
+                            text = "Utworzono: ${formatTimestamp(info.creationDate)}",
+                            fontSize = 12.sp,
+                            fontFamily = googleSansFlex,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                        )
+                        Text(
+                            text = "Ostatnio otwarto: ${formatTimestamp(info.lastOpened)}",
+                            fontSize = 12.sp,
+                            fontFamily = googleSansFlex,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -192,6 +215,12 @@ fun TestInfoSheet(
 
                     Button(
                         onClick = {
+                            testInfo?.let { currentInfo ->
+                                currentInfo.lastOpened = System.currentTimeMillis()
+                                scope.launch(Dispatchers.IO) {
+                                    TestInfoManager.saveTestInfo(database.directory!!, currentInfo)
+                                }
+                            }
                             onDismiss()
                             onStartTest()
                         },
@@ -288,4 +317,10 @@ private fun InfoStatRow(
             )
         )
     }
+}
+
+private fun formatTimestamp(timestamp: Long): String {
+    val sdf = SimpleDateFormat("HH:mm, dd.MM.yyyy", Locale.getDefault())
+    sdf.timeZone = TimeZone.getDefault()
+    return sdf.format(Date(timestamp))
 }

@@ -65,26 +65,43 @@ class MainActivityViewModel: ViewModel() {
         }
     }
 
-    fun existingDatabases(context: Context){
-//        Directory for databases
+    fun existingDatabases(context: Context) {
         val databaseDir = context.filesDir.resolve(databaseDirectoryName)
 
-//        Check if database directory exist - if not create it
-        if (!databaseDir.exists() || !databaseDir.isDirectory){
+        if (!databaseDir.exists() || !databaseDir.isDirectory) {
             databaseDir.mkdirs()
         }
 
         databaseList.clear()
-        if(databaseDir.listFiles()?.any{ it.isDirectory } == false){
+
+        val allFiles = databaseDir.listFiles()
+        if (allFiles == null || allFiles.none { it.isDirectory }) {
             return
         }
 
-//        Put all sub directories in list
-        val directories = databaseDir.listFiles().filter { it.isDirectory }
-//        TODO: make it safer. Check for empty folder and folders that don't match database criteria
-        directories.forEach { dir ->
-            val parser = TestFilesParser(dir.name.toString(), context)
-            databaseList.add(parser.getQuestionDatabase())
+        val sortedDirectories = allFiles
+            .filter { it.isDirectory }
+            .sortedByDescending { it.lastModified() }
+
+        sortedDirectories.forEach { dir ->
+            val contents = dir.listFiles()
+
+            val isNotEmpty = contents != null && contents.isNotEmpty()
+
+            if (isNotEmpty) {
+                try {
+                    val parser = TestFilesParser(dir.name, context)
+                    val database = parser.getQuestionDatabase()
+
+                    if (database.questions.isNotEmpty()) {
+                        databaseList.add(database)
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("DatabaseImport", "Failed to parse: ${dir.name}", e)
+                }
+            } else {
+                android.util.Log.w("DatabaseImport", "Skipping empty directory: ${dir.name}")
+            }
         }
     }
 }

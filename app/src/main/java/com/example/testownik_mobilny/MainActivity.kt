@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
                             val databaseIndex = bse.arguments?.getInt("databaseIndex") ?: 0
                             TestScreen(
                                 mainViewModel.databaseList.elementAt(databaseIndex),
+                                dataStore = dataStore,
                                 navigate = {
                                     navController.popBackStack()
                                 },

@@ -256,6 +256,16 @@ class TestScreenViewModel: ViewModel() {
             }
         }
     }
+
+    fun debugForceCorrect() {
+        mistakeCounter = 0
+        confirmButtonCheck()
+    }
+
+    fun debugForceWrong() {
+        mistakeCounter = 1
+        confirmButtonCheck()
+    }
 }
 
 /**

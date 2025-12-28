@@ -74,16 +74,34 @@ fun LazyListScope.generateDatabaseElements(
     list: List<QuestionDatabase>,
     navigate: (Int) -> Unit
 ) {
-    itemsIndexed(list) { index, data ->
+    itemsIndexed(
+        list,
+        key = { _, data -> data.directory?.absolutePath ?: data.name }
+    ) { index, data ->
         var visible by remember { mutableStateOf(false) }
-        LaunchedEffect(Unit) { visible = true }
+
+        LaunchedEffect(data.directory?.absolutePath) {
+            visible = true
+        }
+
+        val slideDuration = 800
+        val staggerDelay = 350
+        val fadeDuration = 1000
 
         AnimatedVisibility(
             visible = visible,
             enter = slideInHorizontally(
-                animationSpec = tween(250 * index + 100),
+                animationSpec = tween(
+                    durationMillis = slideDuration,
+                    delayMillis = index * staggerDelay
+                ),
                 initialOffsetX = { fullWidth -> -fullWidth }
-            ) + fadeIn(animationSpec = tween(500 * index + 100))
+            ) + fadeIn(
+                animationSpec = tween(
+                    durationMillis = fadeDuration,
+                    delayMillis = index * staggerDelay
+                )
+            )
         ) {
             DatabaseCard(
                 name = data.name,

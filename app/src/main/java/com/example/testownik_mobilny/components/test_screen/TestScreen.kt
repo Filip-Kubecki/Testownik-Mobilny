@@ -18,10 +18,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.testownik_mobilny.AppSettings
+import com.example.testownik_mobilny.components.debug.DebugTestControls
 import com.example.testownik_mobilny.logic.QuestionDatabase
 import com.example.testownik_mobilny.view_models.TestScreenViewModel
 import kotlinx.coroutines.delay
@@ -31,10 +35,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun TestScreen(
     database: QuestionDatabase,
+    dataStore: AppSettings,
     navigate: () -> Unit,
     settingsNav: () -> Unit
 ){
     val localViewModel = TestScreenViewModel()
+    val isDebugEnabled by dataStore.debugEnable.collectAsState(initial = false)
 
     LaunchedEffect(Unit){
         localViewModel.init(database)
@@ -49,9 +55,21 @@ fun TestScreen(
             )
         },
         floatingActionButton = {
-            ConfirmChoiceButton(
-                localViewModel
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                if (isDebugEnabled) {
+                    DebugTestControls(
+                        localViewModel
+                    )
+                }
+
+                Box(modifier = Modifier.align(Alignment.BottomEnd)) {
+                    ConfirmChoiceButton(localViewModel)
+                }
+            }
         },
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +127,7 @@ fun TestScreen(
                             id = originalIndex,
                             viewModel = localViewModel,
                             directory = database.directory,
-                            debugMode = true
+                            dataStore
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                     }

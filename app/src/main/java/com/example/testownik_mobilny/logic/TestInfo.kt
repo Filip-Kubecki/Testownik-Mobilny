@@ -21,6 +21,8 @@ data class TestInfo(
     var answeredQuestions: MutableList<Int> = mutableListOf(),
     var unvisitedQuestions: MutableList<Int> = mutableListOf(),
     var timeSpent: Int = 0,
+    var creationDate: Long = System.currentTimeMillis(),
+    var lastOpened: Long = System.currentTimeMillis()
 ){
     override fun toString(): String {
         return "Database: $name, Fully memorized questions: ${memorizedQuestions.size}\n" +

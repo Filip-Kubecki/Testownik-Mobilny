@@ -1,67 +1,64 @@
 package com.example.testownik_mobilny
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import okio.IOException
+import java.io.IOException
 
 val Context.dataStore by preferencesDataStore("AppSettings")
 
-class AppSettings(
-    private val context : Context
-) {
-    val fontSize = context.dataStore.data.catch { exeption ->
-        if (exeption is IOException){
-            emit(emptyPreferences())
-        }else{
-            throw exeption
-        }
-    }.map { preferences ->
-        val fontSize = preferences[fontSizeKey] ?: FontSize.MEDIUM.name
+class AppSettings(private val context: Context) {
 
-        try{
-            FontSize.valueOf(fontSize)
-        }catch (e: IllegalArgumentException){
-            FontSize.MEDIUM
+    // Common error handling for DataStore flows
+    private fun <T> Flow<T>.handleErrors(): Flow<T> = this.catch { exception ->
+        if (exception is IOException) {
+            emit(emptyPreferences() as T)
+        } else {
+            throw exception
         }
     }
 
-    val debugEnable = context.dataStore.data.map { preferences ->
-        preferences[debugEnableKey] ?: false
-    }
+    val fontSize: Flow<FontSize> = context.dataStore.data
+        .handleErrors()
+        .map { preferences ->
+            val fontSizeName = preferences[fontSizeKey] ?: FontSize.MEDIUM.name
+            try {
+                FontSize.valueOf(fontSizeName)
+            } catch (e: IllegalArgumentException) {
+                FontSize.MEDIUM
+            }
+        }
 
-    suspend fun setFontSize(size: FontSize){
+    val debugEnable: Flow<Boolean> = context.dataStore.data
+        .handleErrors()
+        .map { preferences ->
+            preferences[debugEnableKey] ?: false
+        }
+
+    suspend fun setFontSize(size: FontSize) {
         context.dataStore.edit { settings ->
-            settings[fontSizeKey] = size.toString()
+            settings[fontSizeKey] = size.name
         }
     }
 
-    suspend fun setDebugEnable(value: Boolean){
+    suspend fun setDebugEnable(value: Boolean) {
         context.dataStore.edit { settings ->
-            settings[debugEnableKey] = value.toString()
+            settings[debugEnableKey] = value
         }
     }
 
-    companion object{
+    companion object {
         val fontSizeKey = stringPreferencesKey("font_size_key")
-        val debugEnableKey = stringPreferencesKey("debug_enable_key")
+        val debugEnableKey = booleanPreferencesKey("debug_enable_key")
     }
 }
 
-enum class FontSize{
-    SMALL,
-    MEDIUM,
-    LARGE,
+enum class FontSize {
+    SMALL, MEDIUM, LARGE
 }
-
-//fun FontSize.toTextUnit() : TextUnit{
-//    return when(this){
-//        FontSize.SMALL -> 16.sp
-//        FontSize.MEDIUM -> 24.sp
-//        FontSize.LARGE -> 32.sp
-//    }
-//}
